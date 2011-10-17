@@ -1,13 +1,9 @@
-from numpy import linalg
-from numpy import angle
 import math
 import Vector as vec
 import Angle as ang
 import matplotlib.pyplot as plt
 
 class Trajectory:
-    velocityVector = None
-    g = None
     def __init__(self, g, initialVelocity):
        self.g = g
        self.velocityVector = initialVelocity
@@ -47,7 +43,7 @@ class Trajectory:
         plt.axis([min(xs),max(xs),min(ys), max(ys)])
         plt.show()
     
-class LaunchTrajectory:
+class ProjectileLaunchData:
     launchAngles = [None, None]
     def __init__(self, initialVelocity, g = 9.8):
         self.v0 = initialVelocity
@@ -82,7 +78,7 @@ class LaunchTrajectory:
 def main():
     velocityMagnitude = 10
     angle = ang.Angle.fromDegrees(30)
-    a = LaunchTrajectory(velocityMagnitude, angle)
+    a = ProjectileLaunchData(velocityMagnitude, angle)
     print(a.GetTrajectory().GetLaunchAngle().ToString())
     
     a.GetAngleToTarget([3,3])
@@ -92,10 +88,11 @@ def main():
     print(b.YMax())
     print(b.TimeOfFlight())
     print(b.GetLaunchAngle().ToString())
-    b.Graph(.01)
+    b.Graph(.1)
+    a= vec.Vector([3,4])
+    b = vec.Vector([2,5])
 
-
-    b = input("stop here")
+    b = input("stop")
 
 if __name__ == "__main__":
     main()

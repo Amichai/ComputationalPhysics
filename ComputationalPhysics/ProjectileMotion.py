@@ -24,7 +24,7 @@ class Trajectory:
        xVal = velocity.xProjection() * time
        return [xVal, yVal]
     def PositionAtGivenTime(self, time):
-       yVal = .5 * self.g * math.pow(time, 2)
+       yVal = self.velocityVector.yProjection() * time - .5 * self.g * math.pow(time, 2)
        xVal = self.velocityVector.xProjection() * time
        return [xVal, yVal]
     def TimeOfFlight(self):
@@ -43,7 +43,6 @@ class Trajectory:
             xs.append(pos[0])
             ys.append(pos[1])
             t += dt
-            
         plt.plot(xs, ys, 'bo')
         plt.axis([min(xs),max(xs),min(ys), max(ys)])
         plt.show()

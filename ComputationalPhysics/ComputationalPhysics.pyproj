@@ -27,6 +27,7 @@
   <ItemGroup>
     <Compile Include="Angle.py" />
     <Compile Include="ProjectileMotion.py" />
+    <Compile Include="ProjectileMotionWithDrag.py" />
     <Compile Include="Vector.py" />
   </ItemGroup>
 </Project>

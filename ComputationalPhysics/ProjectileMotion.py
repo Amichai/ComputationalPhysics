@@ -2,6 +2,7 @@ import math
 import Vector as vec
 import Angle as ang
 import matplotlib.pyplot as plt
+import ProjectileMotionWithDrag as drg
 
 class Trajectory:
     def __init__(self, g, initialVelocity):
@@ -42,7 +43,7 @@ class Trajectory:
         plt.plot(xs, ys, 'bo')
         plt.axis([min(xs),max(xs),min(ys), max(ys)])
         plt.show()
-    
+
 class ProjectileLaunchData:
     launchAngles = [None, None]
     def __init__(self, initialVelocity, g = 9.8):
@@ -72,25 +73,12 @@ class ProjectileLaunchData:
     def GetTrajectory(self):
         return Trajectory(self.g, vec.Vector.fromAngleAndMagnitude(self.launchAngles[0], self.v0.getMagnitude()))
 
-
-
-
 def main():
     velocityMagnitude = 10
     angle = ang.Angle.fromDegrees(30)
     a = ProjectileLaunchData(velocityMagnitude, angle)
-    print(a.GetTrajectory().GetLaunchAngle().ToString())
-    
-    a.GetAngleToTarget([3,3])
-    print(a.launchAngles[0].ToString())
-    b = a.GetTrajectory()
-    print(b.XMax())
-    print(b.YMax())
-    print(b.TimeOfFlight())
-    print(b.GetLaunchAngle().ToString())
-    b.Graph(.1)
-    a= vec.Vector([3,4])
-    b = vec.Vector([2,5])
+    c = drg.TrajectoryWithResistance(a, [5,6], .01)
+
 
     b = input("stop")
 

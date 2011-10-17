@@ -3,6 +3,7 @@ from numpy import angle
 import math
 import Vector as vec
 import Angle as ang
+import matplotlib.pyplot as plt
 
 class Trajectory:
     velocityVector = None
@@ -33,6 +34,19 @@ class Trajectory:
        return self.PositionAtGivenTime(time)[0]
     def XMax(self):
         return self.PositionAtGivenTime(self.TimeOfFlight())[0]
+    def Graph(self, dt = .1):
+        xs = []
+        ys = []
+        t = 0
+        while t < self.TimeOfFlight():
+            pos = self.PositionAtGivenTime(t)
+            xs.append(pos[0])
+            ys.append(pos[1])
+            t += dt
+            
+        plt.plot(xs, ys, 'bo')
+        plt.axis([min(xs),max(xs),min(ys), max(ys)])
+        plt.show()
     
 class LaunchTrajectory:
     launchAngles = [None, None]
@@ -79,6 +93,7 @@ def main():
     print(b.YMax())
     print(b.TimeOfFlight())
     print(b.GetLaunchAngle().ToString())
+    b.Graph(.01)
 
 
     b = input("stop here")

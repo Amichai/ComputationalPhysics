@@ -26,7 +26,7 @@ namespace VisualizationUI {
 		/// Required method for Designer support - do not modify
 		/// the contents of this method with the code editor.
 		/// </summary>
-		private void InitializeComponent(List<Series> seriesToPlot, double min = double.MinValue, double max = double.MinValue) {
+		private void InitializeComponent(PlotData seriesToPlot) {
 			System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
 			System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
 			this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -38,10 +38,6 @@ namespace VisualizationUI {
 			chartArea1.Name = "ChartArea1";
 			chartArea1.AxisX.IsMarginVisible = true;
 			chartArea1.AxisX.Enabled = AxisEnabled.True;
-			if (min != double.MinValue)
-				chartArea1.AxisX.Minimum = min;
-			if (max != double.MinValue)
-				chartArea1.AxisX.Maximum = max;
 		
 			this.chart1.ChartAreas.Add(chartArea1);
 			this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -49,7 +45,7 @@ namespace VisualizationUI {
 			this.chart1.Legends.Add(legend1);
 			this.chart1.Location = new System.Drawing.Point(0, 0);
 			this.chart1.Name = "chart1";
-			foreach (var ser in seriesToPlot) {
+			foreach (var ser in seriesToPlot.GetData()) {
 				this.chart1.Series.Add(ser);
 			}
 			this.chart1.Size = new System.Drawing.Size(728, 433);

@@ -36,7 +36,6 @@ namespace VisualizationUI {
 			// chart1
 			// 
 			chartArea1.Name = "ChartArea1";
-			chartArea1.AxisX.IsMarginVisible = true;
 			chartArea1.AxisX.Enabled = AxisEnabled.True;
 		
 			this.chart1.ChartAreas.Add(chartArea1);

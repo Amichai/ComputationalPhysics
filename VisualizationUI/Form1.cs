@@ -24,12 +24,19 @@ namespace VisualizationUI {
 			//pendulum.AddDependentVariable("PE+KE", () => pendulum["potentialEnergy"]() + pendulum["kineticEnergy"]());
 			//s = pendulum.TrialData("time", "PE+KE", 0, 20, .1);
 
-			Polynomial poly = new Polynomial(1, 0, -200);
-			PlotData p = new PlotData(poly, -20, 20, .1);
-			p.AddTrial( "x", "y");
-			p.AddTrial( "x", "dy");
-			poly.AddDependentVariable("inty", () => poly.Relate("x", "y").EvaluateIntegral(-20, poly["x"](), .0001, 3000));
-			p.AddTrial("x", "inty");
+			//Polynomial poly = new Polynomial(1, 0, -200);
+			//PlotData p = new PlotData(poly, -20, 20, .1);
+			//p.AddTrial( "x", "y");
+			//p.AddTrial( "x", "dy");
+			//poly.AddDependentVariable("inty", () => poly.Relate("x", "y").EvaluateIntegral(-20, poly["x"](), .0001, 3000));
+			//p.AddTrial("x", "inty");
+
+			NoFrictionProjectile proj = new NoFrictionProjectile(10, 10, Math.PI / 4);
+			PlotData p = new PlotData(proj, 0, 40, .1);
+			p.AddTrial("x", "y");
+			//"t" isn't working
+			//p.AddTrial( "t", "x");
+
 			//Cosine cos = new Cosine(3);
 			//var s1 = cos.TrialData("x", "y", -20, 20, .1);
 			//var s2 = cos.TrialData("x", "dy", -20, 20, .1);

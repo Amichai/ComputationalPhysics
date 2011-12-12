@@ -8,9 +8,6 @@ namespace Computational1 {
 	class Program {
 		static void Main(string[] args) {
 			
-			
-			var proj = new Projectile();
-			proj.SetParameters(.1, 5, 5);
 		}
 	}
 }

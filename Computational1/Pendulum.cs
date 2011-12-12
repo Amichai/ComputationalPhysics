@@ -20,18 +20,20 @@ namespace Computational1 {
 				PE = "potentialEnergy",
 				KE = "kineticEnergy",
 				omega = "omega",
-				dTheta = "dTheta";
+				dTheta = "dTheta",
+				h = "height";
 
-		public Pendulum() {
+		public Pendulum(double mass, double length, double grav, double amplitude, double inertia) {
+			AddDependentVariable(h, () => this[l]() * Math.Sin(this[theta]()));
 			AddDependentVariable(PE, () =>
-								-this[m]() * this[g]() * this[l]() * Math.Cos(this[theta]())
+								-this[m]() * this[g]() *this[h]()
 								);
 			AddDependentVariable(KE, () =>
-								((this[inertia]() + this[m]() * Math.Pow(this[l](), 2))
+								((this[this.inertia]() + this[m]() * Math.Pow(this[l](), 2))
 								* Math.Pow(this.Partial(theta, t, this[theta]()), 2)) / 2
 								);
 			AddDependentVariable(omega, () =>
-								Math.Sqrt((this[inertia]() + this[m]() * Math.Pow(this[l](), 2))
+								Math.Sqrt((this[this.inertia]() + this[m]() * Math.Pow(this[l](), 2))
 								  / (this[m]() * this[g]() * this[l]()))
 								);
 			AddDependentVariable(theta, () =>
@@ -39,10 +41,8 @@ namespace Computational1 {
 								+ this[amp]() * Math.Sin(this[t]() * this[omega]())
 								);
 			AddDependentVariable(dTheta, () =>
-								this.Partial(theta, t, this[theta]()));
-		}
+								this.Partial(theta, t, this[t]()));
 
-		public void SetParameters(double mass, double length, double grav, double amplitude, double inertia ){
 			this[m] = () => mass;
 			this[l] = () => length;
 			this[g] = () => grav;
@@ -54,14 +54,36 @@ namespace Computational1 {
 	public class Polynomial : MultiVariableEq {
 		string x = "x",
 			  y = "y",
-			  dy ="dy";
-		public Polynomial() {
+			  dy ="dy",
+			  a = "a",
+			  b = "b",
+			  c = "c";
+		public Polynomial(double A, double B, double C) {
 			AddDependentVariable(y, () =>
-								Math.Pow(this[x](), 3)
+								this[a]() * Math.Pow(this[x](), 2) + this[b]() * this[x]() + this[c]()
 								);
 			AddDependentVariable(dy, () =>
 								this.Partial(y, x, this[x]())
 								);
+			this[a] = () => A;
+			this[b] = () => B;
+			this[c] = () => C;
+		}
+	}
+
+	public class Cosine : MultiVariableEq {
+		string x = "x",
+			  y = "y",
+			  dy = "dy",
+			  a = "A";
+		public Cosine(double A){
+				 AddDependentVariable(y, () =>
+							Math.Cos(this[x]())
+							);
+					AddDependentVariable(dy, () =>
+							this.Partial(y, x, this[x]())
+							);
+			this[a] = () => A;
 		}
 	}
 }

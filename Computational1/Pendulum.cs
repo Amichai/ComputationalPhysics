@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common;
+using System.Drawing;
+using System.Data;
+using System.Windows.Forms.DataVisualization.Charting;
+
 
 namespace Computational1 {
-	class Pendulum : MultiVariableEq {
+	public class Pendulum : MultiVariableEq {
 		string	m = "mass",
 				l = "length",			//suspension length
 				inertia = "inertia",	//moment of inertia from the center of mass
@@ -15,17 +19,16 @@ namespace Computational1 {
 				theta = "theta",
 				PE = "potentialEnergy",
 				KE = "kineticEnergy",
-				omega = "omega";
+				omega = "omega",
+				dTheta = "dTheta";
 
 		public Pendulum() {
-			IndependentParameters(m, l, inertia, t, g, amp);
-			
 			AddDependentVariable(PE, () =>
 								-this[m]() * this[g]() * this[l]() * Math.Cos(this[theta]())
 								);
 			AddDependentVariable(KE, () =>
 								((this[inertia]() + this[m]() * Math.Pow(this[l](), 2))
-								* Math.Pow(this.Partial(theta, t), 2)) / 2
+								* Math.Pow(this.Partial(theta, t, this[theta]()), 2)) / 2
 								);
 			AddDependentVariable(omega, () =>
 								Math.Sqrt((this[inertia]() + this[m]() * Math.Pow(this[l](), 2))
@@ -35,6 +38,8 @@ namespace Computational1 {
 								this[amp]() * Math.Cos(this[t]() * this[omega]())
 								+ this[amp]() * Math.Sin(this[t]() * this[omega]())
 								);
+			AddDependentVariable(dTheta, () =>
+								this.Partial(theta, t, this[theta]()));
 		}
 
 		public void SetParameters(double mass, double length, double grav, double amplitude, double inertia ){
@@ -44,23 +49,19 @@ namespace Computational1 {
 			this[amp] = () => amplitude;
 			this[this.inertia] = () => inertia;
 		}
+	}
 
-		public double Theta(double time) {
-			this[t] = () => time;
-			return this[this.theta]();
-		}
-
-		public double Evaluate(string varToSet, double val, string varToObserve) {
-			this[varToSet] = () => val;
-			return this[varToObserve]();
-		}
-		public double Evaluate(string var1, double val1, string var2, double val2, string varToObserve) {
-			this[var1] = () => val1;
-			this[var2] = () => val2;
-			return this[varToObserve]();
-		}
-		public double Integrate() {
-			throw new NotImplementedException();
+	public class Polynomial : MultiVariableEq {
+		string x = "x",
+			  y = "y",
+			  dy ="dy";
+		public Polynomial() {
+			AddDependentVariable(y, () =>
+								Math.Pow(this[x](), 3)
+								);
+			AddDependentVariable(dy, () =>
+								this.Partial(y, x, this[x]())
+								);
 		}
 	}
 }

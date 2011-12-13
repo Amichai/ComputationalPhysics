@@ -47,8 +47,9 @@ namespace Computational1 {
 								-this[g]() - this[_beta]() * this[vy]() * this[vMag]()
 								);
 			AddDependentVariable(t, () => 
-			                    Relate(vx, t).EvaluateIntegral(this[_vx0](), this[vx](), .0001,3000)
+			                    Relate(vx, t).EvaluateIntegral(this[_vx0](), this[vx]())
 			                    );
+			
 			AddDependentVariable(vy, () =>	
 								this[_vy0]() + this[ay]() * this[t]()
 								);

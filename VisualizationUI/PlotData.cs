@@ -21,16 +21,35 @@ namespace VisualizationUI {
 			this.endVal = endVal;
 			this.stepSize = stepSize;
 		}
-		public void AddTrial(string param1, string param2) {
+
+		public void AddParametricTrial(string p1, string p2, string paremeticVar) {
 			if (eq == null)
 				throw new NullReferenceException();
-			toPlot.Add(eq.TrialData(param1, param2, startVal, endVal, stepSize));
+			toPlot.Add(eq.ParemetricTrial(p1, p2, paremeticVar, startVal, endVal, stepSize));
+		}
+		public void AddParametricTrial(string p1, string p2, string paremeticVar, string lineName) {
+			if (eq == null)
+				throw new NullReferenceException();
+			toPlot.Add(eq.ParemetricTrial(p1, p2, paremeticVar, startVal, endVal, stepSize, lineName));
+		}
+
+		public void AddTrial(string param1, string param2, string seriesName = null) {
+			if (eq == null)
+				throw new NullReferenceException();
+			toPlot.Add(eq.TrialData(param1, param2, startVal, endVal, stepSize, seriesName));
 		}
 		public void AddTrial(MultiVariableEq eq, string param1, string param2){
 			toPlot.Add(eq.TrialData(param1, param2, startVal, endVal, stepSize));
 		}
 		public IEnumerable<Series> GetData() {
 			return toPlot.AsEnumerable();
+		}
+
+		internal void AddPoint(double x, double y, string name) {
+			Series ptSer = new Series();
+			ptSer.Points.Add(new DataPoint(x, y));
+			ptSer.ChartType = SeriesChartType.Point;
+			toPlot.Add(ptSer);
 		}
 	}
 }

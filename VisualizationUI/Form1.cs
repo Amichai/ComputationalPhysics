@@ -8,38 +8,23 @@ using System.Text;
 using System.Windows.Forms;
 using Computational1;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Diagnostics;
 
 namespace VisualizationUI {
 	public partial class Chart : Form {
 		public Chart() {
-			//Pendulum pendulum = new Pendulum(10, 10, 9.8, 3, 3);
-			//s = pendulum.TrialData("time", "dTheta", 0, 20, .1);
-			//s = pendulum.TrialData("time", "theta", 0, 20, .1);
-			//toPlot.Add(s);
-			//s = pendulum.TrialData("time", "height", 0, 20, .1);
-			//toPlot.Add(s);
-			//s = pendulum.TrialData("time", "kineticEnergy", 0, 20, .1);
-			//s = pendulum.TrialData("time", "potentialEnergy", 0, 20, .1);
-			////toPlot.Add(s);
-			//pendulum.AddDependentVariable("PE+KE", () => pendulum["potentialEnergy"]() + pendulum["kineticEnergy"]());
-			//s = pendulum.TrialData("time", "PE+KE", 0, 20, .1);
+			//Todo: Get rid of the visualization UI and port visualization functionality to the Common library
+			LaminarFrictionProjectile proj = new LaminarFrictionProjectile(2);
+			PlotData p = new PlotData(proj, 0, 5, .01);
+			proj.SetvMagTheta(10, Math.PI / 4);
+			var angle = proj.GetAngleToTarget(2, 2);
+			p.AddPoint(2, 2, "target");
+			Debug.Print(angle.ToString());
+			if (angle == double.MinValue)
+				throw new Exception("no solution");
 
-			//Polynomial poly = new Polynomial(1, 0, -200);
-			//PlotData p = new PlotData(poly, -20, 20, .1);
-			//p.AddTrial( "x", "y");
-			//p.AddTrial( "x", "dy");
-			//poly.AddDependentVariable("inty", () => poly.Relate("x", "y").EvaluateIntegral(-20, poly["x"](), .0001, 3000));
-			//p.AddTrial("x", "inty");
+			p.AddParametricTrial("x", "y", "t");
 
-			NoFrictionProjectile proj = new NoFrictionProjectile(10, 10, Math.PI / 4);
-			PlotData p = new PlotData(proj, 0, 40, .1);
-			p.AddTrial("x", "y");
-			//"t" isn't working
-			//p.AddTrial( "t", "x");
-
-			//Cosine cos = new Cosine(3);
-			//var s1 = cos.TrialData("x", "y", -20, 20, .1);
-			//var s2 = cos.TrialData("x", "dy", -20, 20, .1);
 
 			InitializeComponent(p);
 		}

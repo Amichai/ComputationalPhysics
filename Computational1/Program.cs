@@ -20,10 +20,11 @@ namespace Computational1 {
 
 		static void LaminarFrictionProjectileTrial () {
 			LaminarFrictionProjectile proj = new LaminarFrictionProjectile(2);
-			PlotData p = new PlotData(proj, 0, 2, .01);
 			proj.SetvMag(10);
-			Tuple<double, double> target = new Tuple<double, double>(2, .1);
+			var target = new Tuple<double, double>(2, .1);
 			var angle = proj.GetAngleToTarget(target.Item1, target.Item2);
+			
+			PlotData p = new PlotData(proj, 0, 2, .01);
 			p.AddPoint(target.Item1, target.Item2, "Target to hit");
 			if (angle == double.MinValue)
 				throw new Exception("no solution");

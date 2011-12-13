@@ -67,34 +67,38 @@ namespace Computational1 {
 			  double Bs=Math.Sqrt(1+x*x)*B;
 			  if(Bs>=1)
 				return double.MinValue;
-				  
 			  else
 				return xi0-A*(Math.Log(1-Bs)+Bs);
 		}
 		double B, xi0, A;
 
 		public double GetAngleToTarget(double x, double y) {
-			A = this[_g]() /( x * this[_gamma]().Sqrd());
+			return SolveUsingIterativeFunction(x, y);
+			//return SolveWithNewtonRaphson(x, y);
+		}
+		private double SolveUsingIterativeFunction(double x, double y) {
+			A = this[_g]() / (x * this[_gamma]().Sqrd());
 			B = x * this[_gamma]() / this[_v0Mag]();
 			if (B > 1)
 				return double.MinValue;
 			if (x > this[_v0Mag]() / this[_gamma]())
 				return double.MinValue;
-			double xi = 0;
 			double xi1 = 0;
 			double xib = Math.Sqrt(1 / B.Sqrd() - 1);
 			xi0 = y / x;
 			//Solve using an iterative function method
 			var t = new SingleVariableEq(eqToSolve);
-			return Math.Atan(t.IterativeSolver(xi1, xi, -xib, xib, 1.0e-12, 100));
+			return Math.Atan(t.IterativeSolver(xi1, -xib, xib, 1.0e-12, 100));
+		}
 
-			//Solve using NewtonRaphson for finding roots
-			var t2 = new SingleVariableEq(i => y / x - A * (Math.Log(1 - B* Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt( 1 + i.Sqrd())) - i);
-			double C = Math.Exp( - (- y / x + 1 + Math.Sqrt(1 /B.Sqrd() - 1) / A));
-			double initApprox1 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			double initApprox2 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			var deriv = new SingleVariableEq(i => (A* B.Sqrd()* i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) -1);
-			var theta = Math.Atan(t2.NewtonRaphson(deriv,0, initApprox2, initApprox1, 1.0e-12, 100));
+		//A bug popped up in this method, not sure why.
+		private double SolveWithNewtonRaphson(double x, double y) {
+			var t2 = new SingleVariableEq(i => y / x - A * (Math.Log(1 - B * Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt(1 + i.Sqrd())) - i);
+			double C = Math.Exp(-(-y / x + 1 + Math.Sqrt(1 / B.Sqrd() - 1) / A));
+			double initApprox1 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			double initApprox2 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			var deriv = new SingleVariableEq(i => (A * B.Sqrd() * i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) - 1);
+			var theta = Math.Atan(t2.NewtonRaphson(deriv, 0, initApprox1, initApprox2, 1.0e-12, 100));
 			return theta;
 		}
 	}

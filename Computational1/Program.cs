@@ -10,12 +10,19 @@ namespace Computational1 {
 	class Program {
 
 		static void Main(string[] args) {
-
-			LaminarFrictionProjectileTrial();
+			PendulumTrial();
+			
 		}
 		static void RopeTrial() {
-
 			new Rope(2, 2, 5, 5, 10).CalculateShape().Graph();
+		}
+
+		static void PendulumTrial() {
+			var pen = new Pendulum(5, 10, 9.8, 2, 1);
+			PlotData p = new PlotData(pen, 0, 10, .01);
+			p.AddTrial("time",	"theta");
+			p.AddTrial("time", "dTheta");
+			p.Graph();
 		}
 
 		static void LaminarFrictionProjectileTrial () {
@@ -23,7 +30,6 @@ namespace Computational1 {
 			proj.SetvMag(10);
 			var target = new Tuple<double, double>(2, .1);
 			var angle = proj.GetAngleToTarget(target.Item1, target.Item2);
-			
 			PlotData p = new PlotData(proj, 0, 2, .01);
 			p.AddPoint(target.Item1, target.Item2, "Target to hit");
 			if (angle == double.MinValue)

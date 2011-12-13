@@ -5,7 +5,6 @@ using System.Text;
 using System.Diagnostics;
 using Common;
 using Common.ComputationHelper.Graphing;
-using System.Drawing;
 
 namespace Computational1 {
 	class Program {
@@ -23,9 +22,9 @@ namespace Computational1 {
 			LaminarFrictionProjectile proj = new LaminarFrictionProjectile(2);
 			PlotData p = new PlotData(proj, 0, 2, .01);
 			proj.SetvMag(10);
-			Point target = new Point(2, 1);
-			var angle = proj.GetAngleToTarget(target.X, target.Y);
-			p.AddPoint(target.X, target.Y, "Target to hit");
+			Tuple<double, double> target = new Tuple<double, double>(2, .1);
+			var angle = proj.GetAngleToTarget(target.Item1, target.Item2);
+			p.AddPoint(target.Item1, target.Item2, "Target to hit");
 			if (angle == double.MinValue)
 				throw new Exception("no solution");
 			proj.SetvMagTheta(10, angle);

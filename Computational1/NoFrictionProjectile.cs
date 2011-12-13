@@ -84,17 +84,18 @@ namespace Computational1 {
 			double xi1 = 0;
 			double xib = Math.Sqrt(1 / B.Sqrd() - 1);
 			xi0 = y / x;
+			//Solve using an iterative function method
 			var t = new SingleVariableEq(eqToSolve);
-			return Math.Atan(t.Iter(xi1, xi, -xib, xib, 1.0e-12, 100));
+			return Math.Atan(t.IterativeSolver(xi1, xi, -xib, xib, 1.0e-12, 100));
 
-			//var t = new SingleVariableEq(i => y / x - A * Math.Log(1 - B* Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt( 1 + i.Sqrd()) - i);
-			//double C = Math.Exp( - (- y / x + 1 + Math.Sqrt(1 /B.Sqrd() - 1) / A));
-
-			//double initApprox1 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			//double initApprox2 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			//var deriv = new SingleVariableEq(i => (A* B.Sqrd()* i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) -1);
-			//var theta = Math.Atan(t.NewtonRaphson(deriv,0, initApprox2, initApprox1, 1.0e-12, 100));
-			//return theta;
+			//Solve using NewtonRaphson for finding roots
+			var t2 = new SingleVariableEq(i => y / x - A * (Math.Log(1 - B* Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt( 1 + i.Sqrd())) - i);
+			double C = Math.Exp( - (- y / x + 1 + Math.Sqrt(1 /B.Sqrd() - 1) / A));
+			double initApprox1 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			double initApprox2 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			var deriv = new SingleVariableEq(i => (A* B.Sqrd()* i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) -1);
+			var theta = Math.Atan(t2.NewtonRaphson(deriv,0, initApprox2, initApprox1, 1.0e-12, 100));
+			return theta;
 		}
 	}
 

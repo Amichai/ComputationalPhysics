@@ -39,7 +39,7 @@ namespace Computational1 {
 			AddEqParameter(_y0, y0);
 			AddEqParameter(_gamma, gamma);
 		}
-
+			
 		public void SetVxVy(double vx0, double vy0) {
 			AddEqParameter(_vx0, vx0);
 			AddEqParameter(_vy0, vy0);
@@ -48,6 +48,10 @@ namespace Computational1 {
 					Math.Sqrt(Math.Pow(this[_vx0](), 2) + Math.Pow(this[_vy0](), 2))
 					);
 		}
+		public void SetvMag(double v0Mag) {
+			AddEqParameter(_v0Mag, v0Mag);
+		}
+
 		public void SetvMagTheta(double v0Mag, double theta) {
 			AddEqParameter(_v0Mag, v0Mag);
 			AddEqParameter(_theta, theta);
@@ -59,23 +63,38 @@ namespace Computational1 {
 				);
 		}
 
-		public  double GetAngleToTarget(double x, double y) {
-			double xi = Math.Tan(this[_theta]());
-			double A = this[_g]() /( x * this[_gamma]().Sqrd());
-			double B = x * this[_gamma]() / this[_v0Mag]();
+		private double eqToSolve(double x) {
+			  double Bs=Math.Sqrt(1+x*x)*B;
+			  if(Bs>=1)
+				return double.MinValue;
+				  
+			  else
+				return xi0-A*(Math.Log(1-Bs)+Bs);
+		}
+		double B, xi0, A;
+
+		public double GetAngleToTarget(double x, double y) {
+			A = this[_g]() /( x * this[_gamma]().Sqrd());
+			B = x * this[_gamma]() / this[_v0Mag]();
 			if (B > 1)
 				return double.MinValue;
 			if (x > this[_v0Mag]() / this[_gamma]())
 				return double.MinValue;
-			var t = new SingleVariableEq(i => y / x - A * Math.Log(1 - B* Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt( 1 + i.Sqrd()) - i);
-			t.Graph(-15, 15, .01);
-			double C = Math.Exp( - (- y / x + 1 + Math.Sqrt(1 /B.Sqrd() - 1) / A));
+			double xi = 0;
+			double xi1 = 0;
+			double xib = Math.Sqrt(1 / B.Sqrd() - 1);
+			xi0 = y / x;
+			var t = new SingleVariableEq(eqToSolve);
+			return Math.Atan(t.Iter(xi1, xi, -xib, xib, 1.0e-12, 100));
 
-			double initApprox1 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			double initApprox2 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
-			var deriv = new SingleVariableEq(i => (A* B.Sqrd()* i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) -1);
-			var theta = Math.Atan(t.NewtonRalfson(initApprox2, 400, deriv));
-			return theta;
+			//var t = new SingleVariableEq(i => y / x - A * Math.Log(1 - B* Math.Sqrt(1 + i.Sqrd())) + B * Math.Sqrt( 1 + i.Sqrd()) - i);
+			//double C = Math.Exp( - (- y / x + 1 + Math.Sqrt(1 /B.Sqrd() - 1) / A));
+
+			//double initApprox1 = Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			//double initApprox2 = -Math.Sqrt((1 - C).Sqrd() / B.Sqrd() - 1);
+			//var deriv = new SingleVariableEq(i => (A* B.Sqrd()* i) / (1 - B * Math.Sqrt(1 + i.Sqrd())) -1);
+			//var theta = Math.Atan(t.NewtonRaphson(deriv,0, initApprox2, initApprox1, 1.0e-12, 100));
+			//return theta;
 		}
 	}
 

@@ -21,19 +21,21 @@ namespace Computational1 {
 				KE = "kineticEnergy",
 				omega = "omega",
 				dTheta = "dTheta",
-				h = "height";
+				h = "height",
+				totalEnergy = "totalEnergy",
+				lagrangian = "lagrangian";
 
 		public Pendulum(double mass, double length, double grav, double amplitude, double inertia) {
-			AddDependentVariable(h, () => this[l]() * Math.Sin(this[theta]()));
+			AddDependentVariable(h, () => this[l]() * Math.Cos(this[theta]()));
 			AddDependentVariable(PE, () =>
 								-this[m]() * this[g]() *this[h]()
 								);
 			AddDependentVariable(KE, () =>
-								((this[this.inertia]() + this[m]() * Math.Pow(this[l](), 2))
-								* Math.Pow(this.Partial(theta, t, this[theta]()), 2)) / 2
+								((this[this.inertia]() + this[m]() * this[l]().Sqrd())
+								* (this.Partial(theta, t, this[theta]()).Sqrd())) / 2
 								);
 			AddDependentVariable(omega, () =>
-								Math.Sqrt((this[this.inertia]() + this[m]() * Math.Pow(this[l](), 2))
+								Math.Sqrt((this[this.inertia]() + this[m]() * this[l]().Sqrd())
 								  / (this[m]() * this[g]() * this[l]()))
 								);
 			AddDependentVariable(theta, () =>
@@ -42,6 +44,10 @@ namespace Computational1 {
 								);
 			AddDependentVariable(dTheta, () =>
 								this.Partial(theta, t, this[t]()));
+			AddDependentVariable(totalEnergy, () => this[PE]() + this[KE]());
+			AddDependentVariable(lagrangian, () => this[KE]() - this[PE]()
+								);
+			
 
 			this[m] = () => mass;
 			this[l] = () => length;

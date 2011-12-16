@@ -10,22 +10,54 @@ namespace Computational1 {
 	class Program {
 
 		static void Main(string[] args) {
-			PendulumTrial();
-			
+			new ChaosGame(5, 355, .5);
+			//ProjectileTrial(.001);
+			//ProjectileTrial(.01);
+			//ProjectileTrial(.1);
+			//ProjectileTrial(1);
 		}
 		static void RopeTrial() {
 			new Rope(2, 2, 5, 5, 10).CalculateShape().Graph();
 		}
 
 		static void PendulumTrial() {
-			var pen = new Pendulum(5, 10, 9.8, 2, 1);
+			var pen = new Pendulum(5, 10, 9.8, .9, .1);
 			PlotData p = new PlotData(pen, 0, 10, .01);
-			p.AddTrial("time",	"theta");
+			p.AddTrial("time", "theta");
 			p.AddTrial("time", "dTheta");
+			//p.AddTrial("time", "potentialEnergy");
+			//p.AddTrial("time", "kineticEnergy");
+			//p.AddTrial("time", "totalEnergy");
 			p.Graph();
 		}
 
-		static void LaminarFrictionProjectileTrial () {
+		//Homework #2
+		static void ProjectileTrial(double gamma) {
+			double v0 = 10;
+			var target = new Tuple<double, double>(5, 2);
+			var p = new PlotData(0, 2, .01);
+			p.AddPoint(target.Item1, target.Item2, "Target to hit");
+
+			var projFrict = new LaminarFrictionProjectile(gamma);
+			projFrict.SetvMag(v0);
+			double ang1 = projFrict.GetAngleToTarget(target.Item1, target.Item2);
+			projFrict.SetvMagTheta(v0, ang1);
+
+			p.SetNewEq(projFrict);
+			p.AddParametricTrial("x", "y", "t", "Launch angle: " + ang1.ToString() + " gamma: " + gamma.ToString());
+
+			var projNoFric = new NoFrictionProjectile();
+			projNoFric.setVmag(v0);
+			double ang2 = projNoFric.GetAngleToTarget(target.Item1, target.Item2);
+			projNoFric.setTheta(ang2);
+			p.SetNewEq(projNoFric);
+			p.AddParametricTrial("x", "y", "t", "Launch angle: " + ang2.ToString() + " gamma: " + gamma.ToString());
+			p.Graph();
+
+			projFrict.GetThetaForMaxDistance();
+		}
+
+		static void LaminarFrictionProjectileTrial() {
 			LaminarFrictionProjectile proj = new LaminarFrictionProjectile(2);
 			proj.SetvMag(10);
 			var target = new Tuple<double, double>(2, .1);

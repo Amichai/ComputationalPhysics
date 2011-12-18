@@ -10,12 +10,16 @@ namespace Computational1 {
 	class Program {
 
 		static void Main(string[] args) {
-			new ChaosGame(5, 355, .5);
-			//ProjectileTrial(.001);
-			//ProjectileTrial(.01);
-			//ProjectileTrial(.1);
-			//ProjectileTrial(1);
+			CycloidTiral();
+			PendulumTrial();
 		}
+		static void CycloidTiral() {
+			var brach = new Cycloid(4);
+			PlotData p = new PlotData(brach, 0, 4 * Math.PI, .1);
+			p.AddParametricTrial("x", "y", "phi");
+			p.Graph();
+		}
+
 		static void RopeTrial() {
 			new Rope(2, 2, 5, 5, 10).CalculateShape().Graph();
 		}
@@ -31,7 +35,23 @@ namespace Computational1 {
 			p.Graph();
 		}
 
+		static void ChaosGameTrial() {
+			int radius = 355;
+			new ChaosGame(3, radius, 3.0 / 8.0);
+			new ChaosGame(4, radius, 4.0 / 8.0);
+			new ChaosGame(5, radius, 4.0 / 8.0);
+			new ChaosGame(6, radius, 4.0 / 8.0);
+			new ChaosGame(7, radius, 7.0 / 8.0);
+		}
+
 		//Homework #2
+		static void ProjectileTrial() {
+			ProjectileTrial(.001);
+			ProjectileTrial(.01);
+			ProjectileTrial(.1);
+			ProjectileTrial(1);
+		}
+
 		static void ProjectileTrial(double gamma) {
 			double v0 = 10;
 			var target = new Tuple<double, double>(5, 2);

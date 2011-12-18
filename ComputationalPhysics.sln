@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ComputationalPhysics", "ComputationalPhysics\ComputationalPhysics.pyproj", "{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ProjectileMotionWithDrag", "ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj", "{AC7BA4BB-70B1-4E53-8446-C5DAE3E444B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "..\OpenPadProject\Common\Common.csproj", "{D7BCE323-ADC9-4E4C-9DB9-E54E3BE20559}"
@@ -21,14 +19,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Release|Win32.ActiveCfg = Release|Any CPU
-		{B3116327-E0CA-4A4C-BC2B-CCCDEAD84976}.Release|x86.ActiveCfg = Release|Any CPU
 		{AC7BA4BB-70B1-4E53-8446-C5DAE3E444B6}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{AC7BA4BB-70B1-4E53-8446-C5DAE3E444B6}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{AC7BA4BB-70B1-4E53-8446-C5DAE3E444B6}.Debug|Mixed Platforms.Build.0 = Debug|Win32

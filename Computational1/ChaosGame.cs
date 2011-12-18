@@ -103,6 +103,7 @@ namespace Computational1 {
 			}
 
 			var form = new Form();
+			form.Size = new Size(radius * 2, radius * 2);
 			form.BackgroundImage = image;
 			form.BackgroundImageLayout = ImageLayout.Center;
 			form.ShowDialog();

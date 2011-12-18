@@ -26,34 +26,34 @@ namespace Computational1 {
 				lagrangian = "lagrangian";
 
 		public Pendulum(double mass, double length, double grav, double amplitude, double inertia) {
-			AddDependentVariable(h, () => this[l]() * Math.Cos(this[theta]()));
+			AddDependentVariable(h, () => this[l]  * Math.Cos(this[theta] ));
 			AddDependentVariable(PE, () =>
-								-this[m]() * this[g]() *this[h]()
+								-this[m]  * this[g]  *this[h] 
 								);
 			AddDependentVariable(KE, () =>
-								((this[this.inertia]() + this[m]() * this[l]().Sqrd())
-								* (this.Partial(theta, t, this[theta]()).Sqrd())) / 2
+								((this[this.inertia]  + this[m]  * this[l] .Sqrd())
+								* (this.Partial(theta, t, this[theta] ).Sqrd())) / 2
 								);
 			AddDependentVariable(omega, () =>
-								Math.Sqrt((this[this.inertia]() + this[m]() * this[l]().Sqrd())
-								  / (this[m]() * this[g]() * this[l]()))
+								Math.Sqrt((this[this.inertia]  + this[m]  * this[l] .Sqrd())
+								  / (this[m]  * this[g]  * this[l] ))
 								);
 			AddDependentVariable(theta, () =>
-								this[amp]() * Math.Cos(this[t]() * this[omega]())
-								+ this[amp]() * Math.Sin(this[t]() * this[omega]())
+								this[amp]  * Math.Cos(this[t]  * this[omega] )
+								+ this[amp]  * Math.Sin(this[t]  * this[omega] )
 								);
 			AddDependentVariable(dTheta, () =>
-								this.Partial(theta, t, this[t]()));
-			AddDependentVariable(totalEnergy, () => this[PE]() + this[KE]());
-			AddDependentVariable(lagrangian, () => this[KE]() - this[PE]()
+								this.Partial(theta, t, this[t] ));
+			AddDependentVariable(totalEnergy, () => this[PE]  + this[KE] );
+			AddDependentVariable(lagrangian, () => this[KE]  - this[PE] 
 								);
 			
 
-			this[m] = () => mass;
-			this[l] = () => length;
-			this[g] = () => grav;
-			this[amp] = () => amplitude;
-			this[this.inertia] = () => inertia;
+			this[m] =  mass;
+			this[l] = length;
+			this[g] =  grav;
+			this[amp] = amplitude;
+			this[this.inertia] = inertia;
 		}
 	}
 
@@ -66,14 +66,14 @@ namespace Computational1 {
 			  c = "c";
 		public Polynomial(double A, double B, double C) {
 			AddDependentVariable(y, () =>
-								this[a]() * Math.Pow(this[x](), 2) + this[b]() * this[x]() + this[c]()
+								this[a]  * Math.Pow(this[x] , 2) + this[b]  * this[x]  + this[c] 
 								);
 			AddDependentVariable(dy, () =>
-								this.Partial(y, x, this[x]())
+								this.Partial(y, x, this[x] )
 								);
-			this[a] = () => A;
-			this[b] = () => B;
-			this[c] = () => C;
+			this[a] = A;
+			this[b] = B;
+			this[c] = C;
 		}
 	}
 
@@ -84,12 +84,12 @@ namespace Computational1 {
 			  a = "A";
 		public Cosine(double A){
 				 AddDependentVariable(y, () =>
-							Math.Cos(this[x]())
+							Math.Cos(this[x] )
 							);
 					AddDependentVariable(dy, () =>
-							this.Partial(y, x, this[x]())
+							this.Partial(y, x, this[x] )
 							);
-			this[a] = () => A;
+			this[a] = A;
 		}
 	}
 }

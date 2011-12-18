@@ -20,9 +20,9 @@ namespace Computational1 {
 
 		public Rope(double x1, double y1, double x2, double y2, double ell) {
 			//You may need to check that x2 is greater than x1
-			AddDependentVariable(_dx, () => this[_x2]() - this[_x1]());
-			AddDependentVariable(_dy, () => this[_y2]() - this[_y1]());
-			AddDependentVariable(_dl, () => Math.Sqrt(this[_ell]().Sqrd() - this[_dy]().Sqrd()));
+			AddDependentVariable(_dx, () => this[_x2]  - this[_x1] );
+			AddDependentVariable(_dy, () => this[_y2]  - this[_y1] );
+			AddDependentVariable(_dl, () => Math.Sqrt(this[_ell] .Sqrd() - this[_dy] .Sqrd()));
 
 
 			AddEqParameter(_x1, x1);
@@ -33,13 +33,13 @@ namespace Computational1 {
 		}
 
 		public Series CalculateShape() {
-			double dl = this[_dl]();
-			double dx = this[_dx]();
-			double dy = this[_dy]();
-			double ell = this[_ell]();
-			x1 = this[_x1]();
-			x2 = this[_x2]();
-			y2 = this[_y2]();
+			double dl = this[_dl] ;
+			double dx = this[_dx] ;
+			double dy = this[_dy] ;
+			double ell = this[_ell] ;
+			x1 = this[_x1] ;
+			x2 = this[_x2] ;
+			y2 = this[_y2] ;
 
 			if (dl <= dx)
 				return null;

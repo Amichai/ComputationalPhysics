@@ -32,26 +32,26 @@ namespace Computational1 {
 		public Projectile(double beta, double vx0, double vy0, double x0 = 0, double y0 = 0) {
 			//v = v0 + at
 			AddDependentVariable(vMag, () =>
-								Math.Sqrt(Math.Pow(this[vx](), 2) + Math.Pow(this[vy](), 2))
+								Math.Sqrt(Math.Pow(this[vx] , 2) + Math.Pow(this[vy] , 2))
 								);
 			AddDependentVariable(ax, () =>
-								-this[_beta]() * this[vx]() * this[vMag]()
+								-this[_beta]  * this[vx]  * this[vMag] 
 								);
 			AddDependentVariable(dvxdt, () => //vx = -B int from 0 to t (vx vMag) dt
-								-this[_beta]() * this[vx]() * this[vMag]()
+								-this[_beta]  * this[vx]  * this[vMag] 
 			                    );
 			AddDependentVariable(dvydt, () => //vx = -B int from 0 to t (vx vMag) dt
-								- this[g]() - this[_beta]() * this[vy]() * this[vMag]()
+								- this[g]  - this[_beta]  * this[vy]  * this[vMag] 
 								);
 			AddDependentVariable(ay, () =>
-								-this[g]() - this[_beta]() * this[vy]() * this[vMag]()
+								-this[g]  - this[_beta]  * this[vy]  * this[vMag] 
 								);
 			AddDependentVariable(t, () => 
-			                    Relate(vx, t).EvaluateIntegral(this[_vx0](), this[vx]())
+			                    Relate(vx, t).EvaluateIntegral(this[_vx0] , this[vx] )
 			                    );
 			
 			AddDependentVariable(vy, () =>	
-								this[_vy0]() + this[ay]() * this[t]()
+								this[_vy0]  + this[ay]  * this[t] 
 								);
 			AddEqParameter(_beta, beta);
 			AddEqParameter(_vx0, vx0);
@@ -61,8 +61,8 @@ namespace Computational1 {
 		}
 
 		public void FindAngleToTarget(double x, double y) {
-			this[this.x] = () => x;
-			this[this.y] = () => y;
+			this[this.x] = x;
+			this[this.y] = y;
 
 			Relate(this.x, vx);
 			//Find yMax

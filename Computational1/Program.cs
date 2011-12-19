@@ -10,8 +10,9 @@ namespace Computational1 {
 	class Program {
 
 		static void Main(string[] args) {
-			CycloidTiral();
-			PendulumTrial();
+			//CycloidTiral();
+			//PendulumTrial();
+			new DoublePendulum(1,1,1,1, Math.PI / 2, Math.PI / 8,Math.PI / 8, 9.8, 1, .5,.5, 0,0,0, .01, .01).Run();
 		}
 		static void CycloidTiral() {
 			var brach = new Cycloid(4);

@@ -1,14 +1,13 @@
-﻿Build started 12/19/2011 9:43:36 AM.
+﻿Build started 12/19/2011 9:19:58 PM.
      1>Project "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
-         Touching "Debug\ProjectileMotionWithDrag.unsuccessfulbuild".
+         Creating "Debug\ProjectileMotionWithDrag.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
          All outputs are up-to-date.
-         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ProjectileMotionWithDrag.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt difeq.cpp
-         difeq.cpp
-     1>c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\projectilemotionwithdrag\difeq.cpp(32): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+         c:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"Debug\ProjectileMotionWithDrag.pch" /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt pendulum.cpp
+         pendulum.cpp
+     1>c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\projectilemotionwithdrag\pendulum.cpp(21): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
                  c:\program files (x86)\microsoft visual studio 10.0\vc\include\stdio.h(234) : see declaration of 'fopen'
-     1>c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\projectilemotionwithdrag\difeq.cpp(12): warning C4101: 'pi' : unreferenced local variable
        ManifestResourceCompile:
          All outputs are up-to-date.
        Link:
@@ -30,4 +29,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.61
+Time Elapsed 00:00:01.67

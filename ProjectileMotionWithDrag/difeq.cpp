@@ -16,8 +16,8 @@ int main()
   y=pendulum_read();
   n=pendulum_get_n();
   x = 0;
-  x1 = 10;
-  h= .05;
+  x1 = 30;
+  h= .005;
   nstep = 10;
   /*printf("what is initial x?\n");
   scanf("%lf",&x);

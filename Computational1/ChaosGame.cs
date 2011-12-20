@@ -107,7 +107,6 @@ namespace Computational1 {
 			form.BackgroundImage = image;
 			form.BackgroundImageLayout = ImageLayout.Center;
 			form.ShowDialog();
-			}
-		
+		}
 	}
 }

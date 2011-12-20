@@ -19,19 +19,31 @@ double * pendulum_read(void)
   n=4;
   y=(double *)malloc(n*sizeof(double));
   ff=fopen(fname,"r");
-  fscanf(ff,"%lf",&g);
-  fscanf(ff,"%lf",&M1);
-  fscanf(ff,"%lf",&I1);
-  fscanf(ff,"%lf",&R1);
-  fscanf(ff,"%lf",&M2);
-  fscanf(ff,"%lf",&I2);
-  fscanf(ff,"%lf",&R2);
-  fscanf(ff,"%lf",&L);
-  fscanf(ff,"%lf",&psi);
+  //fscanf(ff,"%lf",&g);
+  g = 9.8;
+  //fscanf(ff,"%lf",&M1);
+  M1 = 5;
+  //fscanf(ff,"%lf",&I1);
+  I1 = .1;
+  //fscanf(ff,"%lf",&R1);
+  R1 = 4;
+  //fscanf(ff,"%lf",&M2);
+  M2 = 5;
+  //fscanf(ff,"%lf",&I2);
+  I2 = .01;
+  //fscanf(ff,"%lf",&R2);
+  R2 = 5;
+  //fscanf(ff,"%lf",&L);
+  L = 5;
+  //fscanf(ff,"%lf",&psi);
+  psi = .01;
   /* energy dissiaton */
-  fscanf(ff,"%lf",&a11);
+  /*fscanf(ff,"%lf",&a11);
   fscanf(ff,"%lf",&a12);
-  fscanf(ff,"%lf",&a22);
+  fscanf(ff,"%lf",&a22);*/
+  a11 = .1;
+  a12 = .1;
+  a22 = .1;
   printf("%lf\n",g);
   printf("%lf\n",I1);
   printf("%lf\n",R1);
@@ -43,8 +55,9 @@ double * pendulum_read(void)
   deg=atan((double) 1)/45;
   for(i=0;i<n;i++)
   {
-   fscanf(ff,"%lf",y+i);
-   y[i]*=deg;
+   //fscanf(ff,"%lf",y+i);
+	  y[i] = 20;
+	y[i]*=deg;
   }
   fclose(ff);
   psi*=deg;

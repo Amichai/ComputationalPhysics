@@ -12,7 +12,11 @@ namespace Computational1 {
 		static void Main(string[] args) {
 			//CycloidTiral();
 			//PendulumTrial();
-			new DoublePendulum(1,1,1,1, Math.PI / 2, Math.PI / 8,Math.PI / 8, 9.8, 1, .5,.5, 0,0,0, .01, .01).Run();
+			//ChaosGameTrial();
+			new DoublePendulum(1,1,1,1, Math.PI / 2, Math.PI / 8,Math.PI / 8, 9.8, 1, .5,.5, 0,0,0, .01, .01).Evolve();
+			//PlotData p = new PlotData(pen, 0, 10, .05);
+			//p.AddTrial("t", "phi1");
+			//p.Graph();
 		}
 		static void CycloidTiral() {
 			var brach = new Cycloid(4);

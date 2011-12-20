@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Common;
 
 
 namespace Computational1 {
@@ -24,7 +25,6 @@ namespace Computational1 {
 			return allVerticies;
 		}
 	}
-
 
 	public class ChaosGame {
 		public static bool IsInPolygon(Point[] poly, Point point) {
@@ -47,17 +47,7 @@ namespace Computational1 {
 			double dy = b.Y - a.Y;
 			return Math.Atan(dy / dx);
 		}
-		private int getQuadrant(Point a, Point b) {
-			if (b.X - a.X >= 0 && b.Y - a.Y >= 0)
-				return 1;
-			if (b.X - a.X <= 0 && b.Y - a.Y >= 0)
-				return 2;
-			if (b.X - a.X <= 0 && b.Y - a.Y <= 0)
-				return 3;
-			if (b.X - a.X >= 0 && b.Y - a.Y <= 0)
-				return 4;
-			throw new Exception();
-		}
+
 		private Random rand = new Random();
 		public ChaosGame(int numberOfSides, int radius, double fractionalDistance, int pointsToPlot= 1000000) {
 			var poly = new Polygon(numberOfSides, radius);
@@ -83,7 +73,7 @@ namespace Computational1 {
 				var vertexToHit = verticies[vertexToAimAt];
 				double distance = getDistance(newPoint, vertexToHit) * fractionalDistance;
 				double angle = getAngle(newPoint, vertexToHit);
-				int quad = getQuadrant(newPoint, vertexToHit);
+				int quad = Angle.GetQuadrant(newPoint, vertexToHit);
 				angle = Math.Abs(angle);
 				if (quad == 2) {
 					xCoord = newPoint.X - (int)(distance * Math.Cos(angle));

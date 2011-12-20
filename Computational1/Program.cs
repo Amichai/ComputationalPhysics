@@ -13,11 +13,13 @@ namespace Computational1 {
 			//CycloidTiral();
 			//PendulumTrial();
 			//ChaosGameTrial();
-			new DoublePendulum(1,1,1,1, Math.PI / 2, Math.PI / 8,Math.PI / 8, 9.8, 1, .5,.5, 0,0,0, .01, .01).Evolve();
-			//PlotData p = new PlotData(pen, 0, 10, .05);
-			//p.AddTrial("t", "phi1");
-			//p.Graph();
+			//DoublePendulumTrial();
+			new Animation(.2,.2).ShowDialog();
 		}
+		static void DoublePendulumTrial() {
+			new DoublePendulum(1, 1, 1, 1, Math.PI / 2, Math.PI / 8, Math.PI / 8, 9.8, 1, .5, .5, .1, .1, .1, .01, .01).Evolve(0, 30, .1);
+		}
+
 		static void CycloidTiral() {
 			var brach = new Cycloid(4);
 			PlotData p = new PlotData(brach, 0, 4 * Math.PI, .1);

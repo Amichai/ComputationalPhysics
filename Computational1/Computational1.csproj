@@ -48,7 +48,9 @@
   <ItemGroup>
     <Compile Include="Brachistochrone.cs" />
     <Compile Include="ChaosGame.cs" />
-    <Compile Include="DoublePendulum.cs" />
+    <Compile Include="DoublePendulum.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="NoFrictionProjectile.cs" />
     <Compile Include="Pendulum.cs" />
     <Compile Include="PolynomialFit.cs" />

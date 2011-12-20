@@ -15,28 +15,23 @@ namespace Computational1 {
 			_r1 = "r1",
 			_r2 = "r2",
 			_g = "g",
-			_phi1 = "phi1",
 			_psi1 = "psi1",
 			_psi2 = "psi2",
 			_l = "l",
-			_dpsi1dt = "dpsi1dt",
-			_dpsi2dt = "dpsi2dt",
 			_I1 = "I1",
 			_I2 = "I2",
 			_a12 = "a12",
 			_a11 = "a11",
 			_a22 = "a22";
-		public DoublePendulum(double m1, double m2, double r1, double r2, double psi1, double psi2, double phi1, double g, double l, 
-			double I1, double I2, double a11, double a12, double a22, double dpsi1dt, double dpsi2dt) {
+		public DoublePendulum(double m1, double m2, double r1, double r2, double psi1, double psi2, double g, double l, 
+			double I1, double I2, double a11, double a12, double a22, 
+			double phi1initial, double phi2initial, double dphi1dtinit, double dphi2dtinit) {
 			//L is the distance from the suspension point of the first and second pendulum
 			AddEqParameter(_m1, m1);
 			AddEqParameter(_m2, m2);
 			AddEqParameter(_g, g);
 			AddEqParameter(_psi1, psi1);
 			AddEqParameter(_psi2, psi2);
-			AddEqParameter(_dpsi1dt, dpsi1dt);
-			AddEqParameter(_dpsi2dt, dpsi2dt);
-			AddEqParameter(_phi1, phi1);
 			AddEqParameter(_r1, r1);
 			AddEqParameter(_r2, r2);
 			AddEqParameter(_l, l);
@@ -45,13 +40,14 @@ namespace Computational1 {
 			AddEqParameter(_a11, a11);
 			AddEqParameter(_a12, a12);
 			AddEqParameter(_a22, a22);
+			initialValues = new double[4] { phi1initial, phi2initial, dphi1dtinit, dphi2dtinit };
 		}
 
 		//RungeKutta
 		//y'[n]  = f_i(x, y[n]) i => [0,n]
 		//For the double pendulum:
 		//n = 4, x = t, y1 = psi1, y2 = psi2, y3 = dpsi1dt, y4 = dpsi2dt
-		public double[] initialValues = new double[4] { .2, .2, .2, .2 };
+		public double[] initialValues;
 		public void Evolve(double ti, double tf, double dt) {
 			double[] yvals = initialValues;
 			var series = new RungeKutta().Evaluate(ti, tf, dt, 4, yvals, updateYVals);
@@ -100,45 +96,42 @@ namespace Computational1 {
 	}
 
 	public partial class Animation : Form {
-		public Animation(double phi1, double phi2) {
-			InitializeComponent(phi1, phi2);
+		public Animation(DoublePendulum A, double h) {
+			this.A = A;
+			this.h = h;  
+			InitializeComponent();
 		}
 
-		private int dx = 4;
-		private System.Windows.Forms.PictureBox picTarget;
-		private System.Windows.Forms.PictureBox picBall;
+		private System.Windows.Forms.PictureBox redBall;
+		private System.Windows.Forms.PictureBox blackBall;
 		private System.Windows.Forms.PictureBox anchor;
 		private System.Windows.Forms.Timer timer1;
 		double l;
-		private void InitializeComponent(double phi1, double phi2) {
-			double l = 30;
+		private void InitializeComponent() {
+			this.redBall = new System.Windows.Forms.PictureBox();
+			this.blackBall = new System.Windows.Forms.PictureBox();
 			this.anchor = new System.Windows.Forms.PictureBox();
-			this.picTarget = new System.Windows.Forms.PictureBox();
-			this.picBall = new System.Windows.Forms.PictureBox();
 			this.timer1 = new System.Windows.Forms.Timer(new System.ComponentModel.Container());
 			this.SuspendLayout();
-			this.l = l;
-			this.anchor.BackColor = Color.Black;
-			this.picTarget.BackColor = Color.Red;
-			double x1 = l * Math.Sin(phi1) + this.Width / 2;
-			double y1 = -l * Math.Cos(phi1) + this.Height / 2;
-			double x2 = l *( Math.Sin(phi1) + Math.Sin(phi2)) + this.Width / 2;
-			double y2 = -l *( Math.Cos(phi1) + Math.Cos(phi2)) + this.Height / 2;
-			this.picTarget.Location = new System.Drawing.Point((int)x1, (int)y1);
-			this.picTarget.Name = "picTarget";
-			this.picTarget.Size = new System.Drawing.Size(5, 5);
-			this.picTarget.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.picTarget.TabIndex = 0;
-			this.picTarget.TabStop = false;
-			this.anchor.Location = new Point(this.Width / 2, this.Height / 2);
-			this.anchor.Size = new Size(5, 5);
-			this.picBall.BackColor = Color.Black;
-			this.picBall.Location = new System.Drawing.Point((int)x2, (int)y2);
-			this.picBall.Name = "picBall";
-			this.picBall.Size = new System.Drawing.Size(5, 5);
-			this.picBall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.picBall.TabIndex = 1;
-			this.picBall.TabStop = false;
+			this.l = A["l"];
+			xOffset = this.Width / 2;
+			yOffset = this.Height / 2;
+			this.anchor.BackColor = Color.Purple;
+			this.anchor.Size = new System.Drawing.Size(3, 3);
+			this.anchor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			anchor.Location = new Point((int)xOffset, (int)yOffset);
+			this.redBall.BackColor = Color.Red;
+			this.redBall.Name = "picTarget";
+			this.redBall.Size = new System.Drawing.Size(5, 5);
+			this.redBall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.redBall.TabIndex = 0;
+			this.redBall.TabStop = false;
+			this.blackBall.BackColor = Color.Black;
+			this.blackBall.Name = "picBall";
+			this.blackBall.Size = new System.Drawing.Size(5, 5);
+			this.blackBall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.blackBall.TabIndex = 1;
+			this.blackBall.TabStop = false;
 
 			this.timer1.Enabled = true;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -147,42 +140,50 @@ namespace Computational1 {
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(392, 341);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                  this.picBall,
-                                                                  this.picTarget, this.anchor});
+                                                                  this.blackBall,
+                                                                  this.redBall, this.anchor});
 			this.Name = "Form1";
 			this.Text = "Crasher";
 			this.ResumeLayout(false);
-			xOffset = this.Width / 2;
-			yOffset = this.Height / 2;
-			//(double m1, double m2, double r1, double r2, double psi1, double psi2, double phi1, double g, double l, 
-			//double I1, double I2, double a11, double a12, double a22, double dpsi1dt, double dpsi2dt) {
-
-			A = new DoublePendulum(1, 1, 15, 15, 0, 0, Math.PI / 8, 9.8, l, .5, .5, .1, .1, .1, .5, .51);
+			background = new Bitmap(this.Width, this.Height);
+			g = Graphics.FromImage(background);
+			B = new RungeKutta(A.updateYVals);
+			y = A.initialValues;
 		}
 		int xOffset, yOffset;
-
+		Graphics g;
 		DoublePendulum A;
 		double xi = 0;
+		double h;
+		Point last = new Point(0, 0);
+		RungeKutta B;
+		double[] y;
+		int n = 4;
 		private void timer1_Tick(object sender, System.EventArgs e) {
-			RungeKutta B = new RungeKutta(A.updateYVals);
-			double h = .5;
-			double[] y = A.initialValues;
-			int n = 4;
-			
 			y = B.GetNextVal(xi, y, h, n);
 			xi += h;
-			int quad = Angle.GetQuadrant(y[0]);
 
-			double phi1 = y[0];
+			Debug.Print(xi.ToString() + " " + y[0].ToString() + " " + y[1].ToString() + " " + y[2].ToString() + " " + y[3].ToString());
 
-			double x1 = -l * Math.Sin(y[0]) + xOffset;
+			double x1 = l * Math.Sin(y[0]) + xOffset;
 			double y1 = l * Math.Cos(y[0]) + yOffset;
-			double x2 = -l * (Math.Sin(y[0]) + Math.Sin(y[1])) + xOffset;
-			double y2 = l * (Math.Cos(y[0]) + Math.Cos(y[1])) + yOffset;
+			double x2 = l * (Math.Sin(y[0]) + Math.Sin(y[1])) + xOffset;
+			double y2 = l * (Math.Cos(y[0]) - Math.Cos(y[1])) + yOffset;
 
-			picTarget.Location = new Point((int)x1, (int)y1);
-			picBall.Location = new Point((int)x2, (int)y2);
+			var pen = new Pen(Color.Green, .1f);
+			g.DrawRectangle(pen, new Rectangle((int)x1, (int)y1, 2,2));
+			pen = new Pen(Color.Red, .1f);
+			if (last != new Point(0, 0))
+				g.DrawLine(pen, last, new Point((int)x2, (int)y2));
+			else
+				throw new Exception();
+			this.BackgroundImage = background;
+			redBall.Location = new Point((int)x1, (int)y1);
+			blackBall.Location = new Point((int)x2, (int)y2);
+			last = new Point((int)x2, (int)y2);
 		}
+
+		Image background;
 	}
 
 }

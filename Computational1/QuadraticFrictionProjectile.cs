@@ -15,10 +15,9 @@ namespace Computational1 {
 		public QuadraticFrictionProjectile(double beta, double vx0, double vy0, double g = 9.8) {
 			AddEqParameter(_g, g);
 			AddEqParameter(_beta, beta);
-
-			this.initialValues = new double[4] { 0, 0, vx0, vy0	 };
+			rk = new RungeKutta(updateCoordinates);
+			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
 		}
-		public double[] initialValues; 
 		public double[] updateCoordinates(double[] yVals, double x, double h, int n) {
 			double[] dy = new double[n];
 			double beta = this[_beta];
@@ -29,57 +28,59 @@ namespace Computational1 {
 			return dy;
 		}
 		
-		RungeKutta B;
+		public RungeKutta rk;
 		int n = 4;
 		double h = .1;
 		double t = 0;
-		double[] y;
-		private double getXMax(double theta, double v0Mag) {
-			double vx0 =  v0Mag * Math.Cos(theta);
+		public double[] CurrentPosAndVelocity;
+		private double getYMax(double theta) {
+			double v0Mag = this[_v0Mag];
+			double vx0 = v0Mag * Math.Cos(theta);
 			double vy0 = v0Mag * Math.Sin(theta);
-			y = new double[4] { 0, 0, vx0, vy0 };
-
-			while (y[1] >= 0) {
-				y = B.GetNextVal(t, y, h, n);
-				t += h;
-			}
-			return y[0];
+			throw new NotImplementedException();
 		}
 
-		private double dthetadt(double theta, double v0Mag) {
+		private double getXMax(double theta) {
+			double v0Mag = this[_v0Mag];
+			double vx0 =  v0Mag * Math.Cos(theta);
+			double vy0 = v0Mag * Math.Sin(theta);
+			CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
+
+			while (CurrentPosAndVelocity[1] >= 0) {
+				rk.UpdateYVals(t, CurrentPosAndVelocity, h, n);
+				CurrentPosAndVelocity = rk.CurrentYs;
+				t += h;
+			}
+			return CurrentPosAndVelocity[0];
+		}
+
+		private double dthetadt(double theta) {
 			double dtheta = .01;
-			double xMax1 = getXMax(theta, v0Mag);
-			double xMax2 = getXMax(theta + dtheta, v0Mag);
+			double xMax1 = getXMax(theta);
+			double xMax2 = getXMax(theta + dtheta);
 			return xMax2 - xMax1;
 		}
 
 		public void AnimateTrajectory(double theta) {
-			setInitialConditions(theta);
-			new Animation2(this, .1).ShowDialog();
-		}
-
-		private void setInitialConditions(double theta){
 			double v0Mag = this[_v0Mag];
 			double vx0 = v0Mag * Math.Cos(theta);
 			double vy0 = v0Mag * Math.Sin(theta);
-			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
+			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
+			new Animation2(this, .1).ShowDialog();
 		}
 
-		private void setInitialConditions(double vx0, double vy0) {
-			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
-		}
 
 		public double GetThetaForMaxDistance() {
-			double v0Mag = this[_v0Mag];
 			int counter = 0;
-			return FindZero.DichotomyMethod(i => dthetadt(i, v0Mag), 0, Math.PI / 2 - .05, out counter, .01);
+			return FindZero.DichotomyMethod(i => dthetadt(i), 0, Math.PI / 2 - .05, out counter, .01);
 		}
 
 		public double GetAngleToTarget(double xVal, double yVal, double v0Mag) {
 			AddEqParameter(_v0Mag, v0Mag);
-			B = new RungeKutta(updateCoordinates);
-			y = initialValues;
+			
+			
 			double thetaForMaxDistance = GetThetaForMaxDistance();
+			double xMax = getXMax(thetaForMaxDistance);
 			AnimateTrajectory(thetaForMaxDistance);
 			
 
@@ -125,19 +126,18 @@ namespace Computational1 {
 			background = new Bitmap(this.Width, this.Height);
 			g = Graphics.FromImage(background);
 			g.DrawLine(new Pen(Color.Black, .1f), new Point(0, this.Height / 2), new Point(this.Width, this.Height / 2));
-			B = new RungeKutta(A.updateCoordinates);
-			y = A.initialValues;
+			y = A.CurrentPosAndVelocity;
 		}
 		Graphics g;
 		QuadraticFrictionProjectile A;
 		double xi = 0;
 		double h;
 		Point last = new Point(0, 0);
-		RungeKutta B;
 		double[] y;
 		int n = 4;
 		private void timer1_Tick(object sender, System.EventArgs e) {
-			y = B.GetNextVal(xi, y, h, n);
+			A.rk.UpdateYVals(xi, y, h, n);
+			y = A.rk.CurrentYs;
 			xi += h;
 
 			Debug.Print(xi.ToString() + " " + y[0].ToString() + " " + y[1].ToString() + " " + y[2].ToString() + " " + y[3].ToString());

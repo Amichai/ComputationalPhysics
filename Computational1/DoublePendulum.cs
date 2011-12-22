@@ -160,7 +160,8 @@ namespace Computational1 {
 		double[] y;
 		int n = 4;
 		private void timer1_Tick(object sender, System.EventArgs e) {
-			y = B.GetNextVal(xi, y, h, n);
+			B.UpdateYVals(xi, y, h, n);
+			y = B.CurrentYs;
 			xi += h;
 
 			Debug.Print(xi.ToString() + " " + y[0].ToString() + " " + y[1].ToString() + " " + y[2].ToString() + " " + y[3].ToString());

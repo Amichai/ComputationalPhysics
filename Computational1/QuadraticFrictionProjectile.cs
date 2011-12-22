@@ -12,12 +12,20 @@ namespace Computational1 {
 		string _g = "g",
 			_v0Mag = "v0Mag",
 			_beta = "beta";
-		public QuadraticFrictionProjectile(double beta, double vx0, double vy0, double g = 9.8) {
+		public QuadraticFrictionProjectile(double beta, double vx0, double vy0) {
 			AddEqParameter(_g, g);
 			AddEqParameter(_beta, beta);
 			rk = new RungeKutta(updateCoordinates);
 			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
 		}
+		double g = 9.8;
+		public QuadraticFrictionProjectile(double beta, double v0Mag) {
+			AddEqParameter(_g, g);
+			AddEqParameter(_beta, beta);
+			AddEqParameter(_v0Mag, v0Mag);
+			rk = new RungeKutta(updateCoordinates);
+		}
+
 		public double[] updateCoordinates(double[] yVals, double x, double h, int n) {
 			double[] dy = new double[n];
 			double beta = this[_beta];
@@ -73,6 +81,10 @@ namespace Computational1 {
 		public double GetThetaForMaxDistance() {
 			int counter = 0;
 			return FindZero.DichotomyMethod(i => dthetadt(i), 0, Math.PI / 2 - .05, out counter, .01);
+		}
+
+		private double ShortestDistanceToTarget(double x, double y) {
+			throw new NotImplementedException();
 		}
 
 		public double GetAngleToTarget(double xVal, double yVal, double v0Mag) {

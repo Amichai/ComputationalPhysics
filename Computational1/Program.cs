@@ -14,9 +14,10 @@ namespace Computational1 {
 			//PendulumTrial();
 			//ChaosGameTrial();
 			//DoublePendulumTrial();
-			//QuadraticFrictionProjectileTrial();
-			var A = new QuadraticFrictionProjectile(.01, 173, 173);
-			A.GetAngleToTarget(20, 20, 200);
+			QuadraticFrictionProjectileTrial();
+			
+
+			//A.GetAngleToTarget(20, 20, 200);
 			
 		}
 		static void DoublePendulumTrial() {
@@ -27,6 +28,10 @@ namespace Computational1 {
 		static void QuadraticFrictionProjectileTrial() {
 			var A = new QuadraticFrictionProjectile(.01, 173, 173);
 			new Animation2(A, .1).ShowDialog();
+
+			A = new QuadraticFrictionProjectile(.01, 200);
+			var theta = A.GetThetaForMaxDistance();
+			A.AnimateTrajectory(theta);
 		}
 
 		static void CycloidTiral() {

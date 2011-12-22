@@ -53,7 +53,7 @@ namespace Computational1 {
 			double vx0 =  v0Mag * Math.Cos(theta);
 			double vy0 = v0Mag * Math.Sin(theta);
 			CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
-
+			t = 0;
 			while (CurrentPosAndVelocity[1] >= 0) {
 				rk.UpdateYVals(t, CurrentPosAndVelocity, h, n);
 				CurrentPosAndVelocity = rk.CurrentYs;
@@ -77,27 +77,43 @@ namespace Computational1 {
 			new Animation2(this, .1).ShowDialog();
 		}
 
-
 		public double GetThetaForMaxDistance() {
 			int counter = 0;
 			return FindZero.DichotomyMethod(i => dthetadt(i), 0, Math.PI / 2 - .05, out counter, .01);
 		}
 
-		private double ShortestDistanceToTarget(double x, double y) {
-			throw new NotImplementedException();
+		private double distance(double x1, double y1, double x2, double y2){
+			double d = Math.Sqrt((y2 - y1).Sqrd() + (x2 - x1).Sqrd());
+			return d;
 		}
 
-		public double GetAngleToTarget(double xVal, double yVal, double v0Mag) {
-			AddEqParameter(_v0Mag, v0Mag);
-			
-			
-			double thetaForMaxDistance = GetThetaForMaxDistance();
-			double xMax = getXMax(thetaForMaxDistance);
-			AnimateTrajectory(thetaForMaxDistance);
-			
+		public Point PointToDraw = new Point(0, 0);
 
-			throw new NotImplementedException();
+		private double ShortestDistanceToTarget(double x, double y, double theta) {
+			double lastD = int.MaxValue, newD;
+			double v0Mag = this[_v0Mag];
+			double vx0 = v0Mag * Math.Cos(theta);
+			double vy0 = v0Mag * Math.Sin(theta);
+			CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
+			t = 0;
+			newD = distance(CurrentPosAndVelocity[0], CurrentPosAndVelocity[1], x, y);
+			while (newD < lastD) {
+				rk.UpdateYVals(t, CurrentPosAndVelocity, h, n);
+				CurrentPosAndVelocity = rk.CurrentYs;
+				t += h;
+				lastD = newD;
+				newD = distance(CurrentPosAndVelocity[0], CurrentPosAndVelocity[1], x, y);
+			}
+			if (CurrentPosAndVelocity[1] < y)
+				return -lastD;
+			else return lastD;
+		}	
 
+		public double GetAngleToTarget(double xVal, double yVal) {
+			int counter = 0;
+			//new SingleVariableEq(i => ShortestDistanceToTarget(xVal, yVal, i)).Graph(0, Math.PI / 2, .01);
+			PointToDraw = new Point((int)xVal, (int)yVal);
+			return FindZero.DichotomyMethod(i => ShortestDistanceToTarget(xVal, yVal, i), 0, Math.PI / 2 - .05, out counter, .01);
 		}
 	}
 	//TODO: Make a rigid body animation class that takes delegates for how to manipulate the rigid bodies
@@ -138,6 +154,7 @@ namespace Computational1 {
 			background = new Bitmap(this.Width, this.Height);
 			g = Graphics.FromImage(background);
 			g.DrawLine(new Pen(Color.Black, .1f), new Point(0, this.Height / 2), new Point(this.Width, this.Height / 2));
+			g.DrawRectangle(new Pen(Color.Red, 3f), A.PointToDraw.X, this.Height / 2 - A.PointToDraw.Y, 3, 3);
 			y = A.CurrentPosAndVelocity;
 		}
 		Graphics g;

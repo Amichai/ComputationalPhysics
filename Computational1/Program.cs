@@ -23,21 +23,17 @@ namespace Computational1 {
 
 		static void QuadraticFrictionProjectileTrial() {
 			var A = new QuadraticFrictionProjectile(.01, 173, 173);
-			var ser = A.GetDataSeries(0, 11, .05);
-			PlotData data = new PlotData(ser);
-			data.Graph();
-
+			var ser1 = A.GetDataSeries(0, 11, .05);
 
 			A = new QuadraticFrictionProjectile(.01, 200);
 			var theta = A.GetThetaForMaxDistance();
-			ser = A.GetDataSeries(0, 11, .05, theta);
-			data = new PlotData(ser);
-			data.Graph();
+			var ser2 = A.GetDataSeries(0, 11, .05, theta);
 
 			A = new QuadraticFrictionProjectile(.01, 200);
 			theta = A.GetAngleToTarget(155, 90);
-			ser = A.GetDataSeries(0, 11, .05, theta);
-			data = new PlotData(ser);
+			var ser3 = A.GetDataSeries(0, 11, .05, theta);
+			var data = new PlotData(ser1, ser2, ser3);
+
 			data.AddPoint(155, 90, "target");
 			data.Graph();
 		}

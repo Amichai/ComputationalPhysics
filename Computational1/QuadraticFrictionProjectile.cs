@@ -12,10 +12,12 @@ namespace Computational1 {
 	public class QuadraticFrictionProjectile : MultiVariableEq{
 		string _g = "g",
 			_v0Mag = "v0Mag",
-			_beta = "beta";
+			_beta = "beta",
+			_theta = "theta";
 		public QuadraticFrictionProjectile(double beta, double vx0, double vy0) {
 			AddEqParameter(_g, g);
 			AddEqParameter(_beta, beta);
+			AddDependentVariable(_theta, () => Math.Atan(vy0/vx0));
 			rk = new RungeKutta(updateCoordinates);
 			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
 		}
@@ -113,7 +115,7 @@ namespace Computational1 {
 
 			Series series;
 			if(title == null)
-				series= new Series("x versus y");
+				series = new Series("x versus t,\ntheta = " + this["theta"].ToString());
 			else 
 				series = new Series(title);
 			double[] y = CurrentPosAndVelocity;

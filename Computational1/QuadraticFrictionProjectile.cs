@@ -10,14 +10,10 @@ using System.Diagnostics;
 namespace Computational1 {
 	public class QuadraticFrictionProjectile : MultiVariableEq{
 		string _g = "g",
-			//_vx0 = "vx0",
-			//_vy0 = "vy0",
-			//_theta = "theta",
+			_v0Mag = "v0Mag",
 			_beta = "beta";
 		public QuadraticFrictionProjectile(double beta, double vx0, double vy0, double g = 9.8) {
 			AddEqParameter(_g, g);
-			//AddEqParameter(_vx0, vx0);
-			//AddEqParameter(_vy0, vy0);
 			AddEqParameter(_beta, beta);
 
 			this.initialValues = new double[4] { 0, 0, vx0, vy0	 };
@@ -42,8 +38,6 @@ namespace Computational1 {
 			double vx0 =  v0Mag * Math.Cos(theta);
 			double vy0 = v0Mag * Math.Sin(theta);
 			y = new double[4] { 0, 0, vx0, vy0 };
-			//SetParameter(_vx0, vx0);
-			//SetParameter(_vy0, vy0);
 
 			while (y[1] >= 0) {
 				y = B.GetNextVal(t, y, h, n);
@@ -59,21 +53,35 @@ namespace Computational1 {
 			return xMax2 - xMax1;
 		}
 
+		public void AnimateTrajectory(double theta) {
+			setInitialConditions(theta);
+			new Animation2(this, .1).ShowDialog();
+		}
+
+		private void setInitialConditions(double theta){
+			double v0Mag = this[_v0Mag];
+			double vx0 = v0Mag * Math.Cos(theta);
+			double vy0 = v0Mag * Math.Sin(theta);
+			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
+		}
+
+		private void setInitialConditions(double vx0, double vy0) {
+			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
+		}
+
+		public double GetThetaForMaxDistance() {
+			double v0Mag = this[_v0Mag];
+			int counter = 0;
+			return FindZero.DichotomyMethod(i => dthetadt(i, v0Mag), 0, Math.PI / 2 - .05, out counter, .01);
+		}
+
 		public double GetAngleToTarget(double xVal, double yVal, double v0Mag) {
+			AddEqParameter(_v0Mag, v0Mag);
 			B = new RungeKutta(updateCoordinates);
 			y = initialValues;
-			int counter;
-			double thetaForMaxDistance = FindZero.DichotomyMethod(i => dthetadt(i, v0Mag), 0, Math.PI /2 - .05, out counter, .01);
-			SetParameter("theta", thetaForMaxDistance);
-			double vx0 = v0Mag * Math.Cos(thetaForMaxDistance);
-			double vy0 = v0Mag * Math.Sin(thetaForMaxDistance);
-			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
-			new Animation2(this, .1).ShowDialog();
-			thetaForMaxDistance = Math.PI / 4;
-			vx0 = v0Mag * Math.Cos(thetaForMaxDistance);
-			vy0 = v0Mag * Math.Sin(thetaForMaxDistance);
-			this.initialValues = new double[4] { 0, 0, vx0, vy0 };
-			new Animation2(this, .1).ShowDialog();
+			double thetaForMaxDistance = GetThetaForMaxDistance();
+			AnimateTrajectory(thetaForMaxDistance);
+			
 
 			throw new NotImplementedException();
 

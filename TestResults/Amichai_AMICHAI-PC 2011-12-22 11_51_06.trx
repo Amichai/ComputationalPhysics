@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="8ec9f119-5f87-40a1-84a7-7ceb147984ea" name="Amichai@AMICHAI-PC 2011-12-22 11:51:06" runUser="Amichai-PC\Amichai" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7a61c6dd-4871-423a-9d55-26e05645fdc5">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="Amichai_AMICHAI-PC 2011-12-22 11_51_06">
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Third Party Source\W3b.Sine\_ref\Oyster.IntX.dll" />
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Visual Studio 2010\Projects\RandomWalker\packages\morelinq.1.0\lib\net35\MoreLinq.dll" />
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Visual Studio 2010\Projects\OpenPadProject\Common\bin\Debug\Common.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2011-12-22T11:51:06.3325806-05:00" queuing="2011-12-22T11:51:13.9880185-05:00" start="2011-12-22T11:51:14.2080310-05:00" finish="2011-12-22T11:53:10.1416621-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="3" executed="3" passed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="1" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="AMICHAI-PC" outcome="Error" timestamp="2011-12-22T11:53:10.1396619-05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="DichotomyMethodTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="4b066c86-6321-0404-969a-0d552499fc9e">
+      <Execution id="aee1223a-dacf-4bf4-8aa0-ba2a06ef2dd3" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.FindZeroTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="DichotomyMethodTest" />
+    </UnitTest>
+    <UnitTest name="ThreeVectorConstructorTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="4e228cd1-7134-d4f0-ad63-420d7ce70b2e">
+      <Execution id="3f7bcc26-7d73-4b6f-8cc8-e27942c0d7e2" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.ThreeVectorTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ThreeVectorConstructorTest" />
+    </UnitTest>
+    <UnitTest name="op_AdditionTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="8e922c8d-79b4-de99-9664-c60d5dc7df9f">
+      <Execution id="f040f8f4-b930-4701-9660-8d910e19665c" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.ThreeVectorTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="op_AdditionTest" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="8e922c8d-79b4-de99-9664-c60d5dc7df9f" executionId="f040f8f4-b930-4701-9660-8d910e19665c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e228cd1-7134-d4f0-ad63-420d7ce70b2e" executionId="3f7bcc26-7d73-4b6f-8cc8-e27942c0d7e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4b066c86-6321-0404-969a-0d552499fc9e" executionId="aee1223a-dacf-4bf4-8aa0-ba2a06ef2dd3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="f040f8f4-b930-4701-9660-8d910e19665c" testId="8e922c8d-79b4-de99-9664-c60d5dc7df9f" testName="op_AdditionTest" computerName="AMICHAI-PC" duration="00:00:00.0313124" startTime="2011-12-22T11:51:14.5470504-05:00" endTime="2011-12-22T11:51:16.7181746-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f040f8f4-b930-4701-9660-8d910e19665c">
+    </UnitTestResult>
+    <UnitTestResult executionId="3f7bcc26-7d73-4b6f-8cc8-e27942c0d7e2" testId="4e228cd1-7134-d4f0-ad63-420d7ce70b2e" testName="ThreeVectorConstructorTest" computerName="AMICHAI-PC" duration="00:00:01.7408837" startTime="2011-12-22T11:51:16.7371757-05:00" endTime="2011-12-22T11:51:18.4952763-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Inconclusive" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3f7bcc26-7d73-4b6f-8cc8-e27942c0d7e2">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Inconclusive failed. TODO: Implement code to verify target</Message>
+          <StackTrace>   at CommonTest.ThreeVectorTest.ThreeVectorConstructorTest() in C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\ThreeVectorTest.cs:line 95
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aee1223a-dacf-4bf4-8aa0-ba2a06ef2dd3" testId="4b066c86-6321-0404-969a-0d552499fc9e" testName="DichotomyMethodTest" computerName="AMICHAI-PC" duration="00:01:51.6333851" startTime="2011-12-22T11:51:18.5082770-05:00" endTime="2011-12-22T11:53:10.1416621-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aee1223a-dacf-4bf4-8aa0-ba2a06ef2dd3">
+    </UnitTestResult>
+  </Results>
+</TestRun>

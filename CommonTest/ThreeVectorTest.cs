@@ -90,9 +90,10 @@ namespace CommonTest
 			y.AddVariable("t");
 
 			MultiVariableEq z = new MultiVariableEq(0);
-			ThreeVector target = new ThreeVector(x, y, z);
-			var output = target.Derivate("t", new ThreeVector(2,2,2));
-			Assert.Inconclusive("TODO: Implement code to verify target");
+			//ThreeVector target = new ThreeVector(x, y, z);
+			//var output = target.Derivate("t", new ThreeVector(2,2,2));
+			//Assert.Inconclusive("TODO: Implement code to verify target");
+			//Todo: Make this as unit test
 		}
 	}
 }

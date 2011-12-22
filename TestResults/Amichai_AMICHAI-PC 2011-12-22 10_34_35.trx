@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="a80c107f-0afa-4271-973d-4dfd4b175ee1" name="Amichai@AMICHAI-PC 2011-12-22 10:34:35" runUser="Amichai-PC\Amichai" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Local" id="7a61c6dd-4871-423a-9d55-26e05645fdc5">
+    <Description>These are default test settings for a local test run.</Description>
+    <Deployment enabled="false" runDeploymentRoot="Amichai_AMICHAI-PC 2011-12-22 10_34_35">
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Third Party Source\W3b.Sine\_ref\Oyster.IntX.dll" />
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Visual Studio 2010\Projects\RandomWalker\packages\morelinq.1.0\lib\net35\MoreLinq.dll" />
+      <DeploymentItem filename="C:\Users\Amichai\Documents\Visual Studio 2010\Projects\OpenPadProject\Common\bin\Debug\Common.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2011-12-22T10:34:35.3858646-05:00" queuing="2011-12-22T10:34:47.1765390-05:00" start="2011-12-22T10:34:47.4585551-05:00" finish="2011-12-22T10:34:52.7628585-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="3" executed="2" passed="1" error="0" failed="0" timeout="0" aborted="1" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="1" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="AMICHAI-PC" outcome="Error" timestamp="2011-12-22T10:34:52.7608584-05:00">
+        <Text>Test host process exited unexpectedly.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="DichotomyMethodTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="4b066c86-6321-0404-969a-0d552499fc9e">
+      <Execution id="9bc616b7-ae81-426a-bc1e-c3a2dbc39b3b" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.FindZeroTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="DichotomyMethodTest" />
+    </UnitTest>
+    <UnitTest name="ThreeVectorConstructorTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="4e228cd1-7134-d4f0-ad63-420d7ce70b2e">
+      <Execution id="ee317212-7f41-44ad-a98f-33b84e642198" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.ThreeVectorTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ThreeVectorConstructorTest" />
+    </UnitTest>
+    <UnitTest name="op_AdditionTest" storage="c:\users\amichai\documents\visual studio 2010\projects\computationalphysics\commontest\bin\debug\commontest.dll" id="8e922c8d-79b4-de99-9664-c60d5dc7df9f">
+      <Execution id="a3acd026-69cd-4650-8002-0983b7a88cda" />
+      <TestMethod codeBase="C:/Users/Amichai/Documents/Visual Studio 2010/Projects/ComputationalPhysics/CommonTest/bin/Debug/CommonTest.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CommonTest.ThreeVectorTest, CommonTest, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="op_AdditionTest" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="8e922c8d-79b4-de99-9664-c60d5dc7df9f" executionId="a3acd026-69cd-4650-8002-0983b7a88cda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4e228cd1-7134-d4f0-ad63-420d7ce70b2e" executionId="ee317212-7f41-44ad-a98f-33b84e642198" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4b066c86-6321-0404-969a-0d552499fc9e" executionId="9bc616b7-ae81-426a-bc1e-c3a2dbc39b3b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="a3acd026-69cd-4650-8002-0983b7a88cda" testId="8e922c8d-79b4-de99-9664-c60d5dc7df9f" testName="op_AdditionTest" computerName="AMICHAI-PC" duration="00:00:00.0424163" startTime="2011-12-22T10:34:47.7195701-05:00" endTime="2011-12-22T10:34:49.8726932-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3acd026-69cd-4650-8002-0983b7a88cda">
+    </UnitTestResult>
+    <UnitTestResult executionId="ee317212-7f41-44ad-a98f-33b84e642198" testId="4e228cd1-7134-d4f0-ad63-420d7ce70b2e" testName="ThreeVectorConstructorTest" computerName="AMICHAI-PC" duration="00:00:02.8681640" startTime="2011-12-22T10:34:49.8946945-05:00" endTime="2011-12-22T10:34:52.7628585-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Aborted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee317212-7f41-44ad-a98f-33b84e642198">
+    </UnitTestResult>
+    <UnitTestResult executionId="9bc616b7-ae81-426a-bc1e-c3a2dbc39b3b" testId="4b066c86-6321-0404-969a-0d552499fc9e" testName="DichotomyMethodTest" computerName="AMICHAI-PC" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9bc616b7-ae81-426a-bc1e-c3a2dbc39b3b">
+    </UnitTestResult>
+  </Results>
+</TestRun>

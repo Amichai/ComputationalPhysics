@@ -132,7 +132,7 @@ namespace Computational1 {
 			this.blackBall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.blackBall.TabIndex = 1;
 			this.blackBall.TabStop = false;
-
+			this.timer1.Interval = (int)(1000*h);
 			this.timer1.Enabled = true;
 			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
 
@@ -140,8 +140,8 @@ namespace Computational1 {
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(392, 341);
 			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-                                                                  this.blackBall,
-                                                                  this.redBall, this.anchor});
+																  this.blackBall,
+																  this.redBall, this.anchor});
 			this.Name = "Form1";
 			this.Text = "Crasher";
 			this.ResumeLayout(false);
@@ -172,11 +172,10 @@ namespace Computational1 {
 
 			var pen = new Pen(Color.Green, .1f);
 			g.DrawRectangle(pen, new Rectangle((int)x1, (int)y1, 2,2));
-			pen = new Pen(Color.Red, .1f);
+			Color color = Color.FromArgb((int)x1*10 % 255, 0, 0);
+			pen = new Pen(color, .1f);
 			if (last != new Point(0, 0))
 				g.DrawLine(pen, last, new Point((int)x2, (int)y2));
-			else
-				throw new Exception();
 			this.BackgroundImage = background;
 			redBall.Location = new Point((int)x1, (int)y1);
 			blackBall.Location = new Point((int)x2, (int)y2);

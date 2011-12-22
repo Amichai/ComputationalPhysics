@@ -13,11 +13,20 @@ namespace Computational1 {
 			//CycloidTiral();
 			//PendulumTrial();
 			//ChaosGameTrial();
-			DoublePendulumTrial();
+			//DoublePendulumTrial();
+			//QuadraticFrictionProjectileTrial();
+			var A = new QuadraticFrictionProjectile(.01, 173, 173);
+			A.GetAngleToTarget(20, 20, 200);
+			
 		}
 		static void DoublePendulumTrial() {
 			var A = new DoublePendulum(1, 1, 1, 1, Math.PI / 2, Math.PI / 8, -9.8, 30, .5, .5, 0, 0, 0, Math.PI / 4, Math.PI / 4, 0, 0);
 			new Animation(A, .1).ShowDialog();
+		}
+
+		static void QuadraticFrictionProjectileTrial() {
+			var A = new QuadraticFrictionProjectile(.01, 173, 173);
+			new Animation2(A, .1).ShowDialog();
 		}
 
 		static void CycloidTiral() {

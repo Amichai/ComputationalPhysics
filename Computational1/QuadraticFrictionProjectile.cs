@@ -6,6 +6,7 @@ using Common;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Computational1 {
 	public class QuadraticFrictionProjectile : MultiVariableEq{
@@ -69,14 +70,6 @@ namespace Computational1 {
 			return xMax2 - xMax1;
 		}
 
-		public void AnimateTrajectory(double theta) {
-			double v0Mag = this[_v0Mag];
-			double vx0 = v0Mag * Math.Cos(theta);
-			double vy0 = v0Mag * Math.Sin(theta);
-			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
-			new Animation2(this, .1).ShowDialog();
-		}
-
 		public double GetThetaForMaxDistance() {
 			int counter = 0;
 			return FindZero.DichotomyMethod(i => dthetadt(i), 0, Math.PI / 2 - .05, out counter, .01);
@@ -115,75 +108,37 @@ namespace Computational1 {
 			PointToDraw = new Point((int)xVal, (int)yVal);
 			return FindZero.DichotomyMethod(i => ShortestDistanceToTarget(xVal, yVal, i), 0, Math.PI / 2 - .05, out counter, .01);
 		}
+
+		public Series GetDataSeries(double ti, double tf, double dt, string title = null) {
+
+			Series series;
+			if(title == null)
+				series= new Series("x versus y");
+			else 
+				series = new Series(title);
+			double[] y = CurrentPosAndVelocity;
+			for (double t = ti; t < tf; t += dt) {
+				rk.UpdateYVals(t, y, dt, n);
+				y = rk.CurrentYs;
+
+				series.Points.Add(new DataPoint(y[0], y[1]));
+				Debug.Print(t.ToString() + " " + y[0].ToString() + " " + y[1].ToString() + " " + y[2].ToString() + " " + y[3].ToString());
+			}
+			series.ChartType = SeriesChartType.Line;
+			series.XAxisType = AxisType.Primary;
+			series.YAxisType = AxisType.Primary;
+
+			series.ChartArea = "ChartArea1";
+			series.Legend = "Legend1";
+			return series;
+		}
+
+		public Series GetDataSeries(double ti, double tf, double dt, double theta) {
+			double v0Mag = this[_v0Mag];
+			double vx0 = v0Mag * Math.Cos(theta);
+			double vy0 = v0Mag * Math.Sin(theta);
+			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
+			return GetDataSeries(ti, tf, dt, "x versus t,\ntheta = " + theta.ToString());
+		}
 	}
-	//TODO: Make a rigid body animation class that takes delegates for how to manipulate the rigid bodies
-	//Todo: implement a class designed for the dichotomy method
-	//Todo: refactor and improve the implementation of the multivariable.rungeKutte()
-
-	public partial class Animation2 : Form {
-		public Animation2(QuadraticFrictionProjectile A, double h) {
-			this.A = A;
-			this.h = h;
-			InitializeComponent();
-		}
-
-		private System.Windows.Forms.PictureBox redBall;
-		private System.Windows.Forms.Timer timer1;
-		private void InitializeComponent() {
-			this.redBall = new System.Windows.Forms.PictureBox();
-			this.timer1 = new System.Windows.Forms.Timer(new System.ComponentModel.Container());
-			this.SuspendLayout();
-			this.redBall.BackColor = Color.Red;
-			this.redBall.Name = "picTarget";
-			this.redBall.Size = new System.Drawing.Size(5, 5);
-			this.redBall.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.redBall.TabIndex = 0;
-			this.redBall.TabStop = false;
-			this.timer1.Interval = (int)(1000 * h);
-			this.timer1.Enabled = true;
-			this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-
-			this.AutoScaleBaseSize = new System.Drawing.Size(5, 13);
-			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(392, 341);
-			this.Controls.AddRange(new System.Windows.Forms.Control[] {
-																  this.redBall});
-			this.Name = "Form1";
-			this.Text = "Crasher";
-			this.ResumeLayout(false);
-			background = new Bitmap(this.Width, this.Height);
-			g = Graphics.FromImage(background);
-			g.DrawLine(new Pen(Color.Black, .1f), new Point(0, this.Height / 2), new Point(this.Width, this.Height / 2));
-			g.DrawRectangle(new Pen(Color.Red, 3f), A.PointToDraw.X, this.Height / 2 - A.PointToDraw.Y, 3, 3);
-			y = A.CurrentPosAndVelocity;
-		}
-		Graphics g;
-		QuadraticFrictionProjectile A;
-		double xi = 0;
-		double h;
-		Point last = new Point(0, 0);
-		double[] y;
-		int n = 4;
-		private void timer1_Tick(object sender, System.EventArgs e) {
-			A.rk.UpdateYVals(xi, y, h, n);
-			y = A.rk.CurrentYs;
-			xi += h;
-
-			Debug.Print(xi.ToString() + " " + y[0].ToString() + " " + y[1].ToString() + " " + y[2].ToString() + " " + y[3].ToString());
-
-			double x1 = y[0];
-			double y1 = -y[1] + this.Height /2;
-
-			var pen = new Pen(Color.Green, .1f);
-			g.DrawRectangle(pen, new Rectangle((int)x1, (int)y1, 2, 2));
-			this.BackgroundImage = background;
-			redBall.Location = new Point((int)x1, (int)y1);
-
-			if (y[1] < 0)
-				this.timer1.Stop();
-		}
-
-		Image background;
-	}
-
 }

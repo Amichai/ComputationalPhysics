@@ -13,13 +13,21 @@ namespace Computational1 {
 		string _g = "g",
 			_v0Mag = "v0Mag",
 			_beta = "beta",
-			_theta = "theta";
+			_theta = "theta",
+			_x = "x",
+			_y = "y",
+			_t = "t";
 		public QuadraticFrictionProjectile(double beta, double vx0, double vy0) {
 			AddEqParameter(_g, g);
+			AddEqParameter(_t, t);
 			AddEqParameter(_beta, beta);
 			AddDependentVariable(_theta, () => Math.Atan(vy0/vx0));
+			AddDependentVariable(_x, () => xOft(this[_t]));
+			AddDependentVariable(_y, () => yOft(this[_t]));
+
 			rk = new RungeKutta(updateCoordinates);
 			this.CurrentPosAndVelocity = new double[4] { 0, 0, vx0, vy0 };
+			SetParameter(_t, 0);
 		}
 		double g = 9.8;
 		public QuadraticFrictionProjectile(double beta, double v0Mag) {
@@ -27,6 +35,13 @@ namespace Computational1 {
 			AddEqParameter(_beta, beta);
 			AddEqParameter(_v0Mag, v0Mag);
 			rk = new RungeKutta(updateCoordinates);
+		}
+
+		private double yOft(double t) {
+			throw new NotImplementedException();
+		}
+		private double xOft(double t) {
+			throw new NotImplementedException();
 		}
 
 		public double[] updateCoordinates(double[] yVals, double x, double h, int n) {

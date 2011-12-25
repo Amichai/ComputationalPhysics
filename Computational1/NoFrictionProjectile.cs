@@ -24,8 +24,16 @@ namespace Computational1 {
 			AddEqParameter(_theta, theta);
 		}
 
+		public double GetTimeOfFlight() {
+			return 2 * this[_vy0] / this[_g];
+		}
+
 		public void setVmag(double vMag){
 			AddEqParameter(_vMag, vMag);
+		}
+
+		public double GetRange() {
+			return (this[_vMag].Sqrd() / this[_g]) * Math.Sin(2 * this[_theta]);
 		}
 
 		public NoFrictionProjectile(double g = 9.8, double x0 = 0, double y0 = 0) {
@@ -46,13 +54,18 @@ namespace Computational1 {
 			AddEqParameter(_y0, y0);
 		}
 
-		internal double GetAngleToTarget(double x, double y) {
+		public Tuple<double, double> GetAnglesToTarget(double x, double y) {
 			double g= this[_g] ;
 			double v0 = this[_vMag] ;
-			return Math.Atan(
+			double ang1 = Math.Atan(
 				(v0.Sqrd() + Math.Sqrt(Math.Pow(v0, 4) - g*(g *x.Sqrd() + 2 * y * v0.Sqrd())))
 				/ (g * x)
 				);
+			double ang2 = Math.Atan(
+				(v0.Sqrd() - Math.Sqrt(Math.Pow(v0, 4) - g * (g * x.Sqrd() + 2 * y * v0.Sqrd())))
+				/ (g * x)
+				);
+			return new Tuple<double, double>(ang1, ang2);
 		}
 
 		internal double GetThetaForMaxDistance() {

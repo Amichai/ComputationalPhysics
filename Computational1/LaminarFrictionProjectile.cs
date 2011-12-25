@@ -6,7 +6,7 @@ using Common;
 
 namespace Computational1 {
 	public class LaminarFrictionProjectile : MultiVariableEq {
-		string y = "y",
+		string _y = "y",
 			_x = "x",
 			vy = "vy",
 			vx = "vx",
@@ -22,7 +22,7 @@ namespace Computational1 {
 			_xMax = "xMax";
 
 		//TODO: take variable sets out of the constructors
-		public LaminarFrictionProjectile(double gamma, double g = 9.8, double x0 = 0, double y0 = 0) {
+		public LaminarFrictionProjectile(double gamma = .1, double g = 9.8, double x0 = 0, double y0 = 0) {
 			AddDependentVariable(vx, () => //vx = vx0 e^{gamma t}
 				this[_vx0] * Math.Exp(-this[_gamma] * this[_t])
 				);
@@ -32,7 +32,7 @@ namespace Computational1 {
 			AddDependentVariable(_x, () =>
 					this[_vx0] * (1 - Math.Exp(-this[_gamma] * this[_t])) / this[_gamma]
 					);
-			AddDependentVariable(y, () =>
+			AddDependentVariable(_y, () =>
 					-this[_g] * this[_t] / this[_gamma] + (this[_vy0] + this[_g] / this[_gamma]) * (1 - Math.Exp(-this[_gamma] * this[_t])) / this[_gamma]
 					);
 
@@ -71,42 +71,6 @@ namespace Computational1 {
 			return new SingleVariableEq(solveMe).NewtonRaphson(xMax - .01, .001, xMax, 1.0e-10, 400);
 		}
 
-		private double secondDerivXofT(double t) {
-			double G = this[_gamma];
-			double V = this[_v0Mag];
-			double g = this[_g];
-			return -((G.Sqrd() * Math.Exp(5 * t * G) - 5 * G.Sqrd() * Math.Exp(4 * t * G) + 10 * G.Sqrd() * Math.Exp(3 * t * G)
-				- 10 * G.Sqrd() * Math.Exp(2 * t * G) + 5 * G.Sqrd() * Math.Exp(t * G) - G.Sqrd()) * Math.Pow(V, 8) + (-2 * g.Sqrd() * t.Sqrd() * G.Sqrd() * Math.Exp(5 * t * G) + 6 * g.Sqrd()
-					* t.Sqrd() * G.Sqrd() * Math.Exp(4 * t * G) - 6 * g.Sqrd() * t.Sqrd() * G.Sqrd() * Math.Exp(3 * t * G) + 2 * g.Sqrd() * t.Sqrd() * G.Sqrd() * Math.Exp(2 * t * G)) * Math.Pow(V, 6) + V.Sqrd() *
-						((g.Sqrd() * Math.Exp(6 * t * G) + (g.Sqrd() * t.Sqrd() * G.Sqrd() - 2 * g.Sqrd() * t * G - 4 * g.Sqrd()) * Math.Exp(5 * t * G) + (-2 * g.Sqrd() * t.Sqrd() * G.Sqrd() + 6 *
-							g.Sqrd() * t * G + 6 * g.Sqrd()) * Math.Exp(4 * t * G) + (g.Sqrd() * t.Sqrd() * G.Sqrd() - 6 * g.Sqrd() * t * G - 4 * g.Sqrd()) * Math.Exp(3 * t * G) + (2 * g.Sqrd() * t * G + g.Sqrd())
-								* Math.Exp(2 * t * G)) * Math.Pow(V, 4) + (-Math.Pow(g, 4) * t.Sqrd() * Math.Exp(6 * t * G) + (-Math.Pow(g, 4) * Math.Pow(t, 4) * G.Sqrd() + 2 * Math.Pow(g, 4) * Math.Pow(t, 3)
-								* G + 2 * Math.Pow(g, 4) * t.Sqrd())
-								* Math.Exp(5 * t * G) + (-2 * Math.Pow(g, 4) * Math.Pow(t, 3) * G - Math.Pow(g, 4) * t.Sqrd())
-									* Math.Exp(4 * t * G)) * V.Sqrd()) + (Math.Pow(g, 4) * t.Sqrd() * Math.Exp(6 * t * G) + (-2 * Math.Pow(g, 4) * Math.Pow(t, 3) * G - 2 * Math.Pow(g, 4) * t.Sqrd()) *
-									Math.Exp(5 * t * G) + (Math.Pow(g, 4) * Math.Pow(t, 4) * G.Sqrd() + 2 * Math.Pow(g, 4) * Math.Pow(t, 3) * G + Math.Pow(g, 4) * t.Sqrd())
-										* Math.Exp(4 * t * G)) * Math.Pow(V, 4) + (Math.Pow(g, 4) * Math.Pow(t, 4) * G.Sqrd() * Math.Exp(5 * t * G) - Math.Pow(g, 4) * Math.Pow(t, 4) * G.Sqrd() * Math.Exp(4 * t * G)) * Math.Pow(V, 4)) / (Math.Sqrt((Math.Exp(t * G) - 1) * V - g * t * Math.Exp(t * G))
-											* Math.Sqrt((Math.Exp(t * G) - 1) * V + g * t * Math.Exp(t * G)) * ((G * Math.Exp(5 * t * G) - 4 * G * Math.Exp(4 * t * G) + 6 * G * Math.Exp(3 * t * G) - 4 * G * Math.Exp(2 * t * G) + G * Math.Exp(t * G)) * Math.Pow(V, 5) +
-												(-g.Sqrd() * t.Sqrd() * G * Math.Exp(5 * t * G) + 2 * g.Sqrd() * t.Sqrd() * G * Math.Exp(4 * t * G) - g.Sqrd() * t.Sqrd() * G * Math.Exp(3 * t * G)) * Math.Pow(V, 3)) * Math.Abs(V));
-		}
-
-		//http://www.solvemymath.com/online_math_calculator/calculus/derivative_calculator/index.php
-		//input: V* cos(asin((g*x) / ((1 - exp(-G*x))*V)))*(1 - exp(-G*x)) / G
-		private double derivOfXOfT(double t) {
-			double G = this[_gamma];
-			double V = this[_v0Mag];
-			double g = this[_g];
-
-			double A = Math.Exp(-G * t) * ((-G * Math.Exp(2 * t * G) + 2 * G * Math.Exp(G * t) - G) * Math.Pow(V, 4)
-				+ V.Sqrd() * g.Sqrd() * t * Math.Exp(3 * t * G) + (-g.Sqrd() * t.Sqrd() * G - g.Sqrd() * t) * Math.Exp(2 * t * G))
-				+ g.Sqrd() * t.Sqrd() * G * Math.Exp(2 * t * G) * V.Sqrd();
-			//new SingleVariableEq(i => (Math.Exp(2 * i * G) - 2 * Math.Exp(i * G) + 1) * V.Sqrd() - g.Sqrd() * i.Sqrd() * Math.Exp(2 * i * G)).Graph(-10, 10, .1);
-			double B = G * Math.Sqrt(Math.Exp(2 * t * G) - 2 * Math.Exp(t * G) + 1) * V * Math.Sqrt((Math.Exp(2 * t * G) - 2 * Math.Exp(t * G) + 1) * V.Sqrd()
-				- g.Sqrd() * t.Sqrd() * Math.Exp(2 * t * G)) * Math.Abs(V);
-
-			return A / B;
-		}
-
 		public void SetVxVy(double vx0, double vy0) {
 			AddEqParameter(_vx0, vx0);
 			AddEqParameter(_vy0, vy0);
@@ -114,6 +78,10 @@ namespace Computational1 {
 			AddDependentVariable(_v0Mag, () =>
 					Math.Sqrt(Math.Pow(this[_vx0], 2) + Math.Pow(this[_vy0], 2))
 					);
+		}
+
+		public void SetGamma(double gamma) {
+			AddEqParameter(_gamma, gamma);
 		}
 
 		public void SetvMag(double v0Mag) {
@@ -144,6 +112,24 @@ namespace Computational1 {
 			return SolveUsingIterativeFunction(x, y);
 			//return SolveWithNewtonRaphson(x, y);
 		}
+
+		public double NumberOfIterationsToConvergence(double x, double y) {
+			A = this[_g] / (x * this[_gamma].Sqrd());
+			B = x * this[_gamma] / this[_v0Mag];
+			if (B > 1)
+				return double.MinValue;
+			if (x > this[_v0Mag] / this[_gamma])
+				return double.MinValue;
+			double xi1 = 0;
+			double xib = Math.Sqrt(1 / B.Sqrd() - 1);
+			xi0 = y / x;
+			//Solve using an iterative function method
+			var t = new SingleVariableEq(eqToSolve);
+			int counter;
+			Math.Atan(t.IterativeSolver(xi1, -xib, xib, 1.0e-10, 10000, out counter));
+			return (double)counter;
+		}
+
 		private double SolveUsingIterativeFunction(double x, double y) {
 			A = this[_g] / (x * this[_gamma].Sqrd());
 			B = x * this[_gamma] / this[_v0Mag];
@@ -156,6 +142,7 @@ namespace Computational1 {
 			xi0 = y / x;
 			//Solve using an iterative function method
 			var t = new SingleVariableEq(eqToSolve);
+			int counter;
 			return Math.Atan(t.IterativeSolver(xi1, -xib, xib, 1.0e-10, 10000));
 		}
 

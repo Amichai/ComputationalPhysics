@@ -14,8 +14,17 @@ namespace Computational1 {
 			//PendulumTrial();
 			//ChaosGameTrial();
 			//DoublePendulumTrial();
-			QuadraticFrictionProjectileTrial();
+			//ProjectileTrial();
+			//RopeTrial();
+			//QuadraticFrictionProjectileTrial();
+
+
 		}
+
+		static void LogisticMap() {
+			
+		}
+
 		static void DoublePendulumTrial() {
 			var A = new DoublePendulum(1, 1, 1, 1, Math.PI / 2, Math.PI / 8, -9.8, 30, .5, .5, 0, 0, 0, Math.PI / 4, Math.PI / 4, 0, 0);
 			new Animation(A, .1).ShowDialog();
@@ -46,7 +55,12 @@ namespace Computational1 {
 		}
 
 		static void RopeTrial() {
-			new Rope(2, 2, 5, 5, 10).CalculateShape().Graph();
+			//new Rope(2, 2, 5, 5, 5).CalculateShape().Graph();
+			int counter;
+			Func<double, double> tension = i => new Rope(2, 2, 5, 5, i).GetMaxRopeTension(1);
+			var lengthForMinTension= FindZero.DichotomyMethod(i => new SingleVariableEq(tension).Derivative(i), 5, 7, out counter);
+			Console.WriteLine("The rope length for minimizing the tension at the highest point of the rope:\n" + lengthForMinTension.ToString());
+			Console.Read();
 		}
 
 		static void PendulumTrial() {
@@ -71,10 +85,59 @@ namespace Computational1 {
 
 		//Homework #2
 		static void ProjectileTrial() {
-			ProjectileTrial(.001);
-			ProjectileTrial(.01);
-			ProjectileTrial(.1);
-			ProjectileTrial(1);
+
+			var target = new Tuple<double, double>(5, 2);
+			double vMag = 10;
+			NoFrictionProjectile proj1 = new NoFrictionProjectile();
+			proj1.setVmag(vMag);
+			var angle = proj1.GetAnglesToTarget(target.Item1, target.Item2).Item2;
+			proj1.setTheta(angle);
+			double t = proj1.GetTimeOfFlight();
+			PlotData p = new PlotData(proj1, 0, t, .01);
+			p.AddPoint(target.Item1, target.Item2, "Target to hit");
+			p.AddParametricTrial("x", "y", "t", "No friction\nLaunch angle: \n" + angle.ToString());
+			LaminarFrictionProjectile proj2 = new LaminarFrictionProjectile();
+			p.SetNewEq(proj2);
+			double gamma = .1;
+
+			
+			proj2.SetGamma(gamma);
+			proj2.SetvMag(vMag);
+			angle = proj2.GetAngleToTarget(target.Item1, target.Item2);
+			proj2.SetvMagTheta(vMag, angle);
+			p.AddParametricTrial("x", "y", "t", "Launch angle: \n" + angle.ToString() + "\nGamma: " + gamma.ToString());
+			gamma = .01;
+			proj2.SetGamma(gamma);
+			angle = proj2.GetAngleToTarget(target.Item1, target.Item2);
+			proj2.SetvMagTheta(vMag, angle);
+			p.AddParametricTrial("x", "y", "t", "Launch angle: \n" + angle.ToString() + "\nGamma: " + gamma.ToString());
+			gamma = .001;
+			proj2.SetGamma(gamma);
+			angle = proj2.GetAngleToTarget(target.Item1, target.Item2);
+			proj2.SetvMagTheta(vMag, angle);
+			p.AddParametricTrial("x", "y", "t", "Launch angle: \n" + angle.ToString() + "\nGamma: " + gamma.ToString());
+			//p.Graph();			
+
+			for (double i = .3; i < .5; i+=.01) {
+				proj2.SetGamma(i);
+				proj2.SetvMag(vMag);
+				angle = proj2.GetAngleToTarget(target.Item1, target.Item2);
+				if(angle < 0){
+					Console.WriteLine("Largest gamma with which the projectile can reach the target:");
+					i -= .01;
+					Console.WriteLine((i).ToString());
+					Console.WriteLine("\nNumber of iterations to convergence:");
+					proj2.SetGamma(i);
+					Console.WriteLine(proj2.NumberOfIterationsToConvergence(target.Item1, target.Item2).ToString());
+					break;
+				}
+			}
+			Console.Read();
+
+			//ProjectileTrial(.001);
+			//ProjectileTrial(.01);
+			//ProjectileTrial(.1);
+			//ProjectileTrial(1);
 		}
 
 		static void ProjectileTrial(double gamma) {
@@ -93,10 +156,10 @@ namespace Computational1 {
 
 			var projNoFric = new NoFrictionProjectile();
 			projNoFric.setVmag(v0);
-			double ang2 = projNoFric.GetAngleToTarget(target.Item1, target.Item2);
-			projNoFric.setTheta(ang2);
+			var ang2 = projNoFric.GetAnglesToTarget(target.Item1, target.Item2);
+			projNoFric.setTheta(ang2.Item1);
 			p.SetNewEq(projNoFric);
-			p.AddParametricTrial("x", "y", "t", "Launch angle: " + ang2.ToString() + " gamma: " + gamma.ToString());
+			p.AddParametricTrial("x", "y", "t", "Launch angle: " + ang2.Item1.ToString() + " gamma: " + gamma.ToString());
 			p.Graph();
 
 			projFrict.GetThetaForMaxDistance();

@@ -39,6 +39,18 @@ namespace Computational1 {
 	}
 
 	public class PolynomialFit {
+		public double[] DoubleHorner(double[] p, int n, double[]R, double[] Q, double a) {
+			var r = p;
+			var q = p;
+			for (int i = n - 1; i > 0; i--) {
+				r[i] = r[i] * a + p[i];
+				q[i] = q[i] * a + r[i];
+			}
+			R = r;
+			Q = q;
+			return r;
+		}
+
 		public PolynomialFit(int m, double[] x, double[] y, int n) {
 			int n1 = n + 1;
 			int n2 = n1 + 1;

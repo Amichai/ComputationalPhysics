@@ -18,11 +18,12 @@ namespace Computational1 {
 			//RopeTrial();
 			//QuadraticFrictionProjectileTrial();
 
-
+			//LogisticMapTrial();
 		}
 
-		static void LogisticMap() {
-			
+		static void LogisticMapTrial() {
+			//new LogisticMap(1, 3.56, 3.57, .00001).Graph().ShowDialog();
+			new LogisticMap(2, 2.4, 4, .001).Graph().ShowDialog();
 		}
 
 		static void DoublePendulumTrial() {

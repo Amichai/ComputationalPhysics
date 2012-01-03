@@ -18,13 +18,19 @@ namespace Computational1 {
 			//RopeTrial();
 			//QuadraticFrictionProjectileTrial();
 			//LogisticMapTrial();
+			//new IsingModel();
 
-			new IsingModel();
+			var A = new ThreeDIsing();
+			Func<double, double> ising = i => Math.Abs(A.MagnitizationPerSpinAfterTime(i, 100000));
+			new SingleVariableEq(ising).Graph(0, 7, .1);
+
 
 			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);
 			//new PolynomialEquation(1, 1, -6).GetRoots();
 			//Console.ReadLine();
 		}
+
+		
 
 		static void LogisticMapTrial() {
 			//new LogisticMap(1, 3.56, 3.57, .00001).Graph().ShowDialog();

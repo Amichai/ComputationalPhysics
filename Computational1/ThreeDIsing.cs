@@ -8,7 +8,9 @@ using System.Drawing;
 namespace Computational1 {
 	public class ThreeDIsing {
 		static int width = 100;
+		public double NumberOfSpins = Math.Pow(width, 3);
 		List<DoubleArray<bool>> systemState = new List<DoubleArray<bool>>(width);
+		
 		double interactionEnergy = 10;
 		double temperature = 10;
 		double externalField = 0;
@@ -27,23 +29,49 @@ namespace Computational1 {
 
 		private void randomize() {
 			for (int i = 0; i < width; i++) {
-				for (int j = 0; j < width; j++) {
-					for (int k = 0; k < width; k++) {
-						if (rand.NextDouble() < .5) {
-							systemState[i][j][k] = true;
-							setPixel(i, j, true, 1);
-						} else {
-							systemState[i][j][k] = false;
-							setPixel(i, j, false, 1);
+				systemState.Add(new DoubleArray<bool>(width, false));
+			}
+				for (int i = 0; i < width; i++) {
+					for (int j = 0; j < width; j++) {
+						for (int k = 0; k < width; k++) {
+							if (rand.NextDouble() < .5) {
+								systemState[i][j][k] = true;
+								setPixel(i, j, true, 1);
+							} else {
+								systemState[i][j][k] = false;
+								setPixel(i, j, false, 1);
+							}
 						}
 					}
 				}
-			}
+		}
+
+		public void SetT(double T){
+			temperature = T;
+		}
+		public void SetInteractionEnergy(double J){
+			interactionEnergy = J;
+		}
+		public double GetBeta() {
+			return temperature / interactionEnergy;
+		}
+		public double MagnitizationPerSpin() {
+			return Magnitization / NumberOfSpins;
 		}
 
 		public ThreeDIsing() {
 			randomize();
 			//new IsingVisualization(this).ShowDialog();
+		}
+
+		public double MagnitizationPerSpinAfterTime(double beta, int steps = 100000) {
+			interactionEnergy = beta * 10;
+			temperature = 10;
+			Perturb(steps);
+			for (int i = 0; i < 50; i++) {
+
+			}
+			return MagnitizationPerSpin();
 		}
 
 		private int neighborSum(int x, int y, int z) {
@@ -66,7 +94,7 @@ namespace Computational1 {
 					sum++;
 				} else sum--;
 			}
-			if (y + 1 == width) {
+			if (x + 1 == width) {
 				if (systemState[0][y][z]) {
 					sum++;
 				} else sum--;
@@ -125,6 +153,11 @@ namespace Computational1 {
 				Bitmap.SetPixel(x, y, clr2);
 				Magnitization-=dCharge;
 			}
+		}
+
+		public void Perturb(int numberOfTimes) {
+			for (int i = 0; i < numberOfTimes; i++)
+				Perturb();
 		}
 
 		public void Perturb() {

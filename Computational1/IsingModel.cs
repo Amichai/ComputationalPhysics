@@ -14,6 +14,7 @@ namespace Computational1 {
 		double interactionEnergy = 10;
 		double temperature = 10;
 		double externalField = 0;
+		public double NumberOfSpins = Math.Pow(width, 2);
 		Random rand = new Random();
 		/// <summary>Color for value = "true"</summary>
 		Color clr1 = Color.Green;
@@ -242,9 +243,16 @@ namespace Computational1 {
 
 			this.magnitization = new Label();
 			this.magnitization.Location = new Point(margin1, margin2);
+			margin2 += this.magnitization.Height + 5;
+			this.beta = new Label();
+			this.beta.Location = new Point(margin1, margin2);
+			margin2 += this.beta.Height + 5;
+			this.magPerSpin = new Label();
+			this.magPerSpin.Location = new Point(margin1, margin2);
+
 
 			this.Controls.AddRange(new System.Windows.Forms.Control[] { this.systemImage, this.temperature, 
-								this.externalField, this.interactionEnergy, this.magnitization});
+								this.externalField, this.interactionEnergy, this.magnitization, this.beta, this.magPerSpin});
 
 			this.Name = "Form1";
 			this.Text = "Crasher";
@@ -253,7 +261,7 @@ namespace Computational1 {
 			this.Width = 450;
 		}
 
-		private void SetLabel3(string text) {
+		private void SetMagnitization(string text) {
 			using (Graphics g = CreateGraphics()) {
 				SizeF size = g.MeasureString(text, this.magnitization.Font, 495);
 				this.magnitization.Height = (int)Math.Ceiling(size.Height);
@@ -261,9 +269,27 @@ namespace Computational1 {
 			}
 		}
 
+		private void SetBetaLabel(string text) {
+			using (Graphics g = CreateGraphics()) {
+				SizeF size = g.MeasureString(text, this.beta.Font, 495);
+				this.beta.Height = (int)Math.Ceiling(size.Height);
+				this.beta.Text = text;
+			}
+		}
+
+		private void SetMagPerSpin(string text) {
+			using (Graphics g = CreateGraphics()) {
+				SizeF size = g.MeasureString(text, this.magPerSpin.Font, 495);
+				this.magPerSpin.Height = (int)Math.Ceiling(size.Height);
+				this.magPerSpin.Text = text;
+			}
+		}
+
 		private System.Windows.Forms.PictureBox systemImage;
 		private System.Windows.Forms.Timer timer1;
 		private Label magnitization;
+		private Label beta;
+		private Label magPerSpin;
 		enum VarChanger{ raise, lower, constant}
 		VarChanger tempSetting;
 		VarChanger iESetting;
@@ -293,7 +319,10 @@ namespace Computational1 {
 				A.IncreaseEF(.005);
 			this.externalField.SetValue("EF= " + A.GetEF().ToString());
 
-			SetLabel3("Magnetization=\n " + A.Magnitization.ToString());
+			SetMagnitization("Magnetization=\n" + (A.Magnitization).ToString());
+			SetBetaLabel("Beta=\n " + (A.GetTemp() / A.GetIE()).ToString());
+			SetMagPerSpin("Mag Per Spin=\n " + (A.Magnitization / A.NumberOfSpins).ToString());
+
 			var magnifiedBitmap = A.Bitmap.Magnify(mag);
 			this.systemImage.Image = magnifiedBitmap;
 			this.Refresh();

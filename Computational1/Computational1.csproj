@@ -72,6 +72,7 @@
     <Compile Include="Test.Designer.cs">
       <DependentUpon>Test.cs</DependentUpon>
     </Compile>
+    <Compile Include="ThreeDIsing.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OpenPadProject\Common\Common.csproj">

@@ -20,9 +20,12 @@ namespace Computational1 {
 		/// <summary>Color for value = "false"</summary>
 		Color clr2 = Color.Red;
 
+		public int Magnitization = 0;
+
 		public double GetTemp(){
 			return temperature;
 		}
+		public double GetIE() { return interactionEnergy; }
 
 
 		private void randomize() {
@@ -30,17 +33,16 @@ namespace Computational1 {
 				for (int j = 0; j < width; j++) {
 					if (rand.NextDouble() < .5) {
 						systemState[i][j] = true;
-						Bitmap.SetPixel(i, j, clr1);
+						setPixel(i, j, true);
 					} else {
 						systemState[i][j] = false;
-						Bitmap.SetPixel(i, j, clr2);
+						setPixel(i, j, false);
 					}
 				}
 			}
 		}
 
 		public IsingModel() {
-			//this.temperature = Ti;
 			randomize();
 			new IsingVisualization(this).ShowDialog();
 		}
@@ -99,9 +101,13 @@ namespace Computational1 {
 		}
 
 		private void setPixel(int x, int y, bool val){
-			if (val)
+			if (val) {
 				Bitmap.SetPixel(x, y, clr1);
-			else Bitmap.SetPixel(x, y, clr2);
+				Magnitization++;
+			} else {
+				Bitmap.SetPixel(x, y, clr2);
+				Magnitization--;
+			}
 		}
 
 		public void Perturb() {
@@ -119,12 +125,21 @@ namespace Computational1 {
 		}
 
 		public void IncreaseT(double dt) {
-			if(temperature < 100)
+			if(temperature < 10)
 				temperature += dt;
 		}
 		public void DecreaseT(double dt) {
 			if(temperature - dt > 0)
 				temperature -= dt;
+		}
+
+		public void IncreaseIE(double dIE) {
+			if (interactionEnergy < 10)
+				interactionEnergy += dIE;
+		}
+		public void DecreaseIE(double dIE) {
+			if (interactionEnergy - dIE > 0)
+				interactionEnergy -= dIE;
 		}
 
 
@@ -156,50 +171,53 @@ namespace Computational1 {
 			int margin1 = systemImage.Location.X + systemImage.Size.Width + 10;
 			int margin2 = 10;
 			//Temperature Section:
-			this.Heading1 = new Label();
-			this.Heading1.Location = new Point(margin1, margin2);
+			this.heading1 = new Label();
+			this.heading1.Location = new Point(margin1, margin2);
 			using (Graphics g = CreateGraphics()) {
 				string text = "Temperature:";
-				this.Heading1.Font = new Font(this.Heading1.Font, FontStyle.Bold);
-				SizeF size = g.MeasureString(text, this.Heading1.Font, 495);
-				this.Heading1.Height = (int)Math.Ceiling(size.Height);
-				this.Heading1.Text = text;
+				this.heading1.Font = new Font(this.heading1.Font, FontStyle.Bold);
+				SizeF size = g.MeasureString(text, this.heading1.Font, 495);
+				this.heading1.Height = (int)Math.Ceiling(size.Height);
+				this.heading1.Text = text;
 			}
-			margin2 += Heading1.Size.Height + 1;
+			margin2 += heading1.Size.Height + 1;
 			this.comboBox1 = new ComboBox();
-			this.comboBox1.Items.AddRange(new object[]{Temperature.constant, Temperature.lower, Temperature.raise});
+			this.comboBox1.Items.AddRange(new object[]{VarChanger.constant, VarChanger.lower, VarChanger.raise});
 			this.comboBox1.Location = new Point(margin1, margin2);
 			this.comboBox1.Width = 90;
-			this.comboBox1.SelectedItem = Temperature.constant;
+			this.comboBox1.SelectedItem = VarChanger.constant;
 			this.comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
 			margin2 += this.comboBox1.Size.Height + 1;
 			this.properties1 = new Label();
 			this.properties1.Location = new Point(margin1, margin2);
+			margin2 += this.properties1.Size.Height + 5;
 			//Interaction Energy Section
-			this.Heading2 = new Label();
-			this.Heading2.Location = new Point(margin1, margin2);
+			this.heading2 = new Label();
+			this.heading2.Location = new Point(margin1, margin2);
 			using (Graphics g = CreateGraphics()) {
-				string text = "Temperature:";
-				this.Heading2.Font = new Font(this.Heading2.Font, FontStyle.Bold);
-				SizeF size = g.MeasureString(text, this.Heading2.Font, 495);
-				this.Heading2.Height = (int)Math.Ceiling(size.Height);
-				this.Heading2.Text = text;
+				string text = "InteractionEnergy:";
+				this.heading2.Font = new Font(this.heading2.Font, FontStyle.Bold);
+				SizeF size = g.MeasureString(text, this.heading2.Font, 495);
+				this.heading2.Height = (int)Math.Ceiling(size.Height);
+				this.heading2.Text = text;
 			}
-			margin2 += Heading2.Size.Height + 1;
+			margin2 += heading2.Size.Height + 1;
 			this.comboBox2 = new ComboBox();
-			this.comboBox2.Items.AddRange(new object[] { Temperature.constant, Temperature.lower, Temperature.raise });
+			this.comboBox2.Items.AddRange(new object[] { VarChanger.constant, VarChanger.lower, VarChanger.raise });
 			this.comboBox2.Location = new Point(margin1, margin2);
 			this.comboBox2.Width = 90;
-			this.comboBox2.SelectedItem = Temperature.constant;
+			this.comboBox2.SelectedItem = VarChanger.constant;
 			this.comboBox2.DropDownStyle = ComboBoxStyle.DropDownList;
 			margin2 += this.comboBox2.Size.Height + 1;
 			this.properties2 = new Label();
 			this.properties2.Location = new Point(margin1, margin2);
+			margin2 += this.properties2.Height + 1;
 			
-			
+			this.magnitization = new Label();
+			this.magnitization.Location = new Point(margin1, margin2);
 
 			this.Controls.AddRange(new System.Windows.Forms.Control[] { this.systemImage, this.properties1, this.comboBox1
-			, Heading1, this.properties2, this.comboBox2, this.Heading2});
+			, heading1, this.properties2, this.comboBox2, this.heading2, this.magnitization});
 
 			this.Name = "Form1";
 			this.Text = "Crasher";
@@ -207,7 +225,7 @@ namespace Computational1 {
 			this.BackgroundImageLayout = ImageLayout.Center;
 		}
 
-		private void SetLabel(string text) {
+		private void SetLabel1(string text) {
 			using (Graphics g = CreateGraphics()) {
 				SizeF size = g.MeasureString(text, this.properties1.Font, 495);
 				this.properties1.Height = (int)Math.Ceiling(size.Height);
@@ -215,30 +233,57 @@ namespace Computational1 {
 			}
 		}
 
+		private void SetLabel2(string text) {
+			using (Graphics g = CreateGraphics()) {
+				SizeF size = g.MeasureString(text, this.properties2.Font, 495);
+				this.properties2.Height = (int)Math.Ceiling(size.Height);
+				this.properties2.Text = text;
+			}
+		}
+
+		private void SetLabel3(string text) {
+			using (Graphics g = CreateGraphics()) {
+				SizeF size = g.MeasureString(text, this.magnitization.Font, 495);
+				this.magnitization.Height = (int)Math.Ceiling(size.Height);
+				this.magnitization.Text = text;
+			}
+		}
+
 		private System.Windows.Forms.PictureBox systemImage;
 		private System.Windows.Forms.Timer timer1;
 		private Label properties1;
-		private Label Heading1;
+		private Label heading1;
 		private ComboBox comboBox1;
-
 		private Label properties2;
-		private Label Heading2;
+		private Label heading2;
 		private ComboBox comboBox2;
+		private Label magnitization;
 
-		enum Temperature{ raise, lower, constant}
-		Temperature setting;
+		enum VarChanger{ raise, lower, constant}
+		VarChanger tempSetting;
+		VarChanger iESetting;
 
 		private void timer1_Tick(object sender, System.EventArgs e) {
 			for (int i = 0; i < 50; i++ )
 				A.Perturb();
-			setting = (Temperature)comboBox1.SelectedItem;
-			if(setting == Temperature.lower)
+			tempSetting = (VarChanger)comboBox1.SelectedItem;
+			if(tempSetting == VarChanger.lower)
 				A.DecreaseT(.005);
-			if (setting == Temperature.raise)
+			if (tempSetting == VarChanger.raise)
 				A.IncreaseT(.005);
+			SetLabel1("T= " + A.GetTemp().ToString());
+
+			iESetting = (VarChanger)comboBox2.SelectedItem;
+			if (iESetting == VarChanger.lower)
+				A.DecreaseIE(.005);
+			if (iESetting == VarChanger.raise)
+				A.IncreaseIE(.005);
+			SetLabel2("IE= " + A.GetIE().ToString());
+
+			SetLabel3("Magnitization= " + A.Magnitization.ToString());
 			var magnifiedBitmap = A.Bitmap.Magnify(mag);
 			this.systemImage.Image = magnifiedBitmap;
-			SetLabel("T= " + A.GetTemp().ToString());
+			
 			this.Refresh();
 		}
 	}

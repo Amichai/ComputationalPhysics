@@ -17,8 +17,13 @@ namespace Computational1 {
 			//ProjectileTrial();
 			//RopeTrial();
 			//QuadraticFrictionProjectileTrial();
-
 			//LogisticMapTrial();
+
+			new IsingModel();
+
+			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);
+			//new PolynomialEquation(1, 1, -6).GetRoots();
+			//Console.ReadLine();
 		}
 
 		static void LogisticMapTrial() {

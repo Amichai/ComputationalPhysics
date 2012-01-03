@@ -83,6 +83,7 @@
   <ItemGroup>
     <ClCompile Include="pendulum.cpp" />
     <ClCompile Include="difeq.cpp" />
+    <ClCompile Include="relaxationMethod.cpp" />
     <ClCompile Include="runge-kutte.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

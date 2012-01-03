@@ -51,6 +51,9 @@
     <Compile Include="DoublePendulum.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="IsingModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="LaminarFrictionProjectile.cs" />
     <Compile Include="LogisticMap.cs" />
     <Compile Include="NoFrictionProjectile.cs" />
@@ -63,12 +66,23 @@
     <Compile Include="QuadraticFrictionProjectile.cs" />
     <Compile Include="RigidBody.cs" />
     <Compile Include="Rope.cs" />
+    <Compile Include="Test.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Test.Designer.cs">
+      <DependentUpon>Test.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OpenPadProject\Common\Common.csproj">
       <Project>{D7BCE323-ADC9-4E4C-9DB9-E54E3BE20559}</Project>
       <Name>Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Test.resx">
+      <DependentUpon>Test.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

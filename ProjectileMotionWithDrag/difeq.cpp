@@ -6,8 +6,22 @@
 #include "runge-kutte.h"
 
 
-int main()
+int main2()
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   double *y,x,x1,h;
   double pi;
   int n,i,nstep,j;

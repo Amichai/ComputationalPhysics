@@ -21,8 +21,8 @@ namespace Computational1 {
 			//new IsingModel();
 
 			var A = new ThreeDIsing();
-			Func<double, double> ising = i => Math.Abs(A.MagnitizationPerSpinAfterTime(i, 100000));
-			new SingleVariableEq(ising).Graph(0, 7, .1);
+			Func<double, double> ising = i => A.AverageMagnitizationPerSpinAfterTime(i, 10000000, 1000, 1);
+			new SingleVariableEq(ising).Graph(1, 10, 1);
 
 
 			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);

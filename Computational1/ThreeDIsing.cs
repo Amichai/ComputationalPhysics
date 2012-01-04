@@ -64,14 +64,17 @@ namespace Computational1 {
 			//new IsingVisualization(this).ShowDialog();
 		}
 
-		public double MagnitizationPerSpinAfterTime(double beta, int steps = 100000) {
+		public double AverageMagnitizationPerSpinAfterTime(double beta, int initialSteps = 100000, int statisticalTrials = 50000, int pertubationsPerTrial = 1) {
 			interactionEnergy = beta * 10;
 			temperature = 10;
-			Perturb(steps);
-			for (int i = 0; i < 50; i++) {
-
+			randomize();
+			Perturb(initialSteps);
+			var magnitizationPerSpinsReading = new List<double>(statisticalTrials);
+			for (int i = 0; i < statisticalTrials; i++) {
+				Perturb(pertubationsPerTrial);
+				magnitizationPerSpinsReading.Add(MagnitizationPerSpin());
 			}
-			return MagnitizationPerSpin();
+			return magnitizationPerSpinsReading.Average();
 		}
 
 		private int neighborSum(int x, int y, int z) {

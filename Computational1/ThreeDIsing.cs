@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Computational1 {
 	public class ThreeDIsing {
-		static int width = 100;
+		static int width = 50;
 		public double NumberOfSpins = Math.Pow(width, 3);
 		List<DoubleArray<bool>> systemState = new List<DoubleArray<bool>>(width);
 		
@@ -26,6 +26,20 @@ namespace Computational1 {
 			return temperature;
 		}
 		public double GetIE() { return interactionEnergy; }
+
+		private void initializeToZero() {
+			for (int i = 0; i < width; i++) {
+				systemState.Add(new DoubleArray<bool>(width, false));
+			}
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < width; j++) {
+					for (int k = 0; k < width; k++) {
+						systemState[i][j][k] = true;
+						setPixel(i, j, true, 1);
+					}
+				}
+			}
+		}
 
 		private void randomize() {
 			for (int i = 0; i < width; i++) {
@@ -60,14 +74,17 @@ namespace Computational1 {
 		}
 
 		public ThreeDIsing() {
-			randomize();
-			//new IsingVisualization(this).ShowDialog();
+			//randomize();
+			initializeToZero();
 		}
 
 		public double AverageMagnitizationPerSpinAfterTime(double beta, int initialSteps = 100000, int statisticalTrials = 50000, int pertubationsPerTrial = 1) {
-			interactionEnergy = beta * 10;
-			temperature = 10;
-			randomize();
+			Magnitization = 0;
+			//randomize();
+			initializeToZero();
+
+			interactionEnergy =10;
+			temperature = beta*10;
 			Perturb(initialSteps);
 			var magnitizationPerSpinsReading = new List<double>(statisticalTrials);
 			for (int i = 0; i < statisticalTrials; i++) {

@@ -20,9 +20,19 @@ namespace Computational1 {
 			//LogisticMapTrial();
 			//new IsingModel();
 
-			var A = new ThreeDIsing();
-			Func<double, double> ising = i => A.AverageMagnitizationPerSpinAfterTime(i, 1000000, 1000, 1);
-			new SingleVariableEq(ising).Graph(1,10, 1);
+			//EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel();
+			
+			var A = new ThreeDIsing(16);
+			for (double i = 4; i < 5; i+=.1) {
+				Func<double, double> ising = b => {
+					A.SetBeta(i);
+					A.Randomize();
+					A.Equilibrate(100000);
+					return A.AutoCorrelation((int)b, 50000);
+				};
+				Debug.Print("Temp: " + i.ToString());
+				ising.Graph(1, 8, 1);
+			}
 
 
 			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);
@@ -30,7 +40,12 @@ namespace Computational1 {
 			//Console.ReadLine();
 		}
 
-		
+
+		static void EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel() {
+			var A = new ThreeDIsing();
+			Func<double, double> ising = i => A.AverageMagnitizationPerSpinAfterTime(i, 10000000, 1000, 1);
+			new SingleVariableEq(ising).Graph(4, 6, .2);
+		}
 
 		static void LogisticMapTrial() {
 			//new LogisticMap(1, 3.56, 3.57, .00001).Graph().ShowDialog();

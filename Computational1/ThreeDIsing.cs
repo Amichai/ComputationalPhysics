@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Computational1 {
 	public class ThreeDIsing {
@@ -41,23 +42,72 @@ namespace Computational1 {
 			}
 		}
 
-		private void randomize() {
+		/// <summary>Experimentally determined value for 3d Ising Model critical temp.</summary>
+		public const double CriticalBeta = 4.511;
+
+		public double AutoCorrelation(int radiusToTest, int numberOfSamples) {
+			List<int> samples1 = new List<int>(numberOfSamples);
+			List<int> samples2 = new List<int>(numberOfSamples);
+			for (int i = 0; i < numberOfSamples; i++) {
+				int xIdx = rand.Next(0, width - radiusToTest);
+				int yIdx = rand.Next(0, width);
+				int zIdx = rand.Next(0, width);
+				if(systemState[xIdx][yIdx][zIdx])
+					samples1.Add(1);
+				else samples1.Add(-1);
+				if (systemState[xIdx+radiusToTest][yIdx][zIdx])
+					samples2.Add(1);
+				else samples2.Add(-1);
+			}
+			double mean1 = samples1.Average();
+			double mean2 = samples2.Average();
+			List<double> nextSet = new List<double>(numberOfSamples);
+			for (int i = 0; i < numberOfSamples; i++) {
+				nextSet.Add((samples1[i] - mean1) * (samples2[i] - mean2));
+			}
+			return nextSet.Average();
+		}
+
+		public void Equilibrate(int numberOfPertubations) {
+			for (int i = 0; i < numberOfPertubations; i++) {
+				Perturb();
+			}
+		}
+
+		public double CorrelationLength(int maxRadius, int autoCorrelationSamples) {
+			List<double> correlationLengthResults = new List<double>();
+			for(int i=1; i < maxRadius; i++){
+				var autoCorrelation = AutoCorrelation(i, autoCorrelationSamples);
+				var result = (-i) / (Math.Log(autoCorrelation));
+				if (result < width) {
+					correlationLengthResults.Add(result);
+				}
+			}
+			return correlationLengthResults.Average();
+		}
+
+		public double ReducedTemperatureVal() {
+			return (GetBeta() - CriticalBeta) / GetBeta();
+		}
+
+		public void Randomize() {
+			Magnitization = 0;
 			for (int i = 0; i < width; i++) {
 				systemState.Add(new DoubleArray<bool>(width, false));
 			}
-				for (int i = 0; i < width; i++) {
-					for (int j = 0; j < width; j++) {
-						for (int k = 0; k < width; k++) {
-							if (rand.NextDouble() < .5) {
-								systemState[i][j][k] = true;
-								setPixel(i, j, true, 1);
-							} else {
-								systemState[i][j][k] = false;
-								setPixel(i, j, false, 1);
-							}
+			for (int i = 0; i < width; i++) {
+				for (int j = 0; j < width; j++) {
+					for (int k = 0; k < width; k++) {
+						if (rand.NextDouble() < .5) {
+							systemState[i][j][k] = true;
+							setPixel(i, j, true, 1);
+						} else {
+							systemState[i][j][k] = false;
+							setPixel(i, j, false, 1);
 						}
 					}
 				}
+			}
 		}
 
 		public void SetT(double T){
@@ -73,6 +123,17 @@ namespace Computational1 {
 			return Magnitization / NumberOfSpins;
 		}
 
+		public void SetBeta(double beta) {
+			interactionEnergy = 10;
+			temperature = beta * 10;
+		}
+
+		public ThreeDIsing(int size) {
+			//randomize();
+			width = size;
+			initializeToZero();
+		}
+
 		public ThreeDIsing() {
 			//randomize();
 			initializeToZero();
@@ -82,9 +143,8 @@ namespace Computational1 {
 			Magnitization = 0;
 			//randomize();
 			initializeToZero();
-
-			interactionEnergy =10;
-			temperature = beta*10;
+			SetBeta(beta);
+			
 			Perturb(initialSteps);
 			var magnitizationPerSpinsReading = new List<double>(statisticalTrials);
 			for (int i = 0; i < statisticalTrials; i++) {

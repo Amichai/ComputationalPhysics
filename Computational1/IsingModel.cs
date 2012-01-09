@@ -11,7 +11,7 @@ namespace Computational1 {
 	public class IsingModel {
 		static int width = 100;
 		DoubleArray<bool> systemState = new DoubleArray<bool>(width, false);
-		double interactionEnergy = 10;
+		double interactionEnergy = 2;
 		double temperature = 10;
 		double externalField = 0;
 		public double NumberOfSpins = Math.Pow(width, 2);
@@ -205,7 +205,12 @@ namespace Computational1 {
 			}
 
 			internal VarChanger SelectedItem() {
-				return (VarChanger)options.SelectedItem;
+				try {
+					return (VarChanger)options.SelectedItem;
+				} catch {
+					options.SelectedIndex = 0;
+					return (VarChanger)options.SelectedItem;
+				}
 			}
 		}
 
@@ -255,7 +260,7 @@ namespace Computational1 {
 								this.externalField, this.interactionEnergy, this.magnitization, this.beta, this.magPerSpin});
 
 			this.Name = "Form1";
-			this.Text = "Crasher";
+			this.Text = "Ising Model";
 			this.ResumeLayout(false);
 			this.BackgroundImageLayout = ImageLayout.Center;
 			this.Width = 450;

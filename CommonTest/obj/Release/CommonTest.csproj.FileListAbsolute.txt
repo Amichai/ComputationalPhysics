@@ -1,0 +1,10 @@
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\CommonTest.dll
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\CommonTest.pdb
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\Common.dll
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\MoreLinq.dll
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\Oyster.IntX.dll
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\Common.pdb
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\bin\Release\Oyster.IntX.xml
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\obj\Release\ResolveAssemblyReference.cache
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\obj\Release\CommonTest.dll
+C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\CommonTest\obj\Release\CommonTest.pdb

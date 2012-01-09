@@ -5,6 +5,7 @@ using System.Text;
 using System.Diagnostics;
 using Common;
 using Common.ComputationHelper.Graphing;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Computational1 {
 	class Program {
@@ -21,18 +22,24 @@ namespace Computational1 {
 			//new IsingModel();
 
 			//EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel();
-			
-			var A = new ThreeDIsing(16);
-			for (double i = 4; i < 5; i+=.1) {
+
+
+			List<Series> series = new List<Series>();
+			//Estimate correlation length
+			var A = new ThreeDIsing(25);
+			//for (double i = 4; i < 5; i += .1) {
+				for (double i = 3; i < 8; i += 1) {
 				Func<double, double> ising = b => {
 					A.SetBeta(i);
 					A.Randomize();
-					A.Equilibrate(100000);
-					return A.AutoCorrelation((int)b, 50000);
+					A.Equilibrate(1000000);
+					Debug.Print("Temp: " + i.ToString());
+					return Math.Log(A.AutoCorrelation((int)b, 50000));
 				};
-				Debug.Print("Temp: " + i.ToString());
-				ising.Graph(1, 8, 1);
+				series.Add(ising.Graph(0, 10, 1));
 			}
+			PlotData data = new PlotData(series.ToArray());
+			data.Graph();
 
 
 			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);
@@ -40,11 +47,27 @@ namespace Computational1 {
 			//Console.ReadLine();
 		}
 
+		static void TheCorrelationtoNearestNeighborvsTemperature() {
+			//Estimate correlation length
+			var A = new ThreeDIsing(25);
+			//for (double i = 4; i < 5; i += .1) {
+			Func<double, double> ising = b => {
+				A.SetBeta(b);
+				A.Randomize();
+				A.Equilibrate(1000000);
+				Debug.Print("Temp: " + b.ToString());
+				return A.AutoCorrelation((int)1, 50000);
+			};
+			ising.Graph(4, 5, .01);
+			//}
+		}
+
 
 		static void EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel() {
-			var A = new ThreeDIsing();
+			var A = new ThreeDIsing(20);
 			Func<double, double> ising = i => A.AverageMagnitizationPerSpinAfterTime(i, 10000000, 1000, 1);
-			new SingleVariableEq(ising).Graph(4, 6, .2);
+			//new SingleVariableEq(ising).Graph(1, 9, 1);
+			new SingleVariableEq(ising).Graph(4, 5.2, .1);
 		}
 
 		static void LogisticMapTrial() {

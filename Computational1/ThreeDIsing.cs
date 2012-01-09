@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace Computational1 {
 	public class ThreeDIsing {
-		static int width = 50;
-		public double NumberOfSpins = Math.Pow(width, 3);
-		List<DoubleArray<bool>> systemState = new List<DoubleArray<bool>>(width);
+		static int width {get; set;} 
+		public double NumberOfSpins {get; set;}
+		List<DoubleArray<bool>> systemState { get; set; }
 		
 		double interactionEnergy = 10;
 		double temperature = 10;
@@ -45,10 +45,10 @@ namespace Computational1 {
 		/// <summary>Experimentally determined value for 3d Ising Model critical temp.</summary>
 		public const double CriticalBeta = 4.511;
 
-		public double AutoCorrelation(int radiusToTest, int numberOfSamples) {
-			List<int> samples1 = new List<int>(numberOfSamples);
-			List<int> samples2 = new List<int>(numberOfSamples);
-			for (int i = 0; i < numberOfSamples; i++) {
+		public double AutoCorrelation(int radiusToTest, int numberOfSamplesInEachDimension) {
+			List<int> samples1 = new List<int>(numberOfSamplesInEachDimension);
+			List<int> samples2 = new List<int>(numberOfSamplesInEachDimension);
+			for (int i = 0; i < numberOfSamplesInEachDimension; i++) {
 				int xIdx = rand.Next(0, width - radiusToTest);
 				int yIdx = rand.Next(0, width);
 				int zIdx = rand.Next(0, width);
@@ -58,11 +58,34 @@ namespace Computational1 {
 				if (systemState[xIdx+radiusToTest][yIdx][zIdx])
 					samples2.Add(1);
 				else samples2.Add(-1);
+				
+
+				xIdx = rand.Next(0, width);
+				yIdx = rand.Next(0, width - radiusToTest);
+				zIdx = rand.Next(0, width);
+				if (systemState[xIdx][yIdx][zIdx])
+					samples1.Add(1);
+				else samples1.Add(-1);
+				if (systemState[xIdx][yIdx + radiusToTest][zIdx])
+					samples2.Add(1);
+				else samples2.Add(-1);
+
+				xIdx = rand.Next(0, width);
+				yIdx = rand.Next(0, width);
+				zIdx = rand.Next(0, width - radiusToTest);
+				if (systemState[xIdx][yIdx][zIdx])
+					samples1.Add(1);
+				else samples1.Add(-1);
+				if (systemState[xIdx][yIdx][zIdx + radiusToTest])
+					samples2.Add(1);
+				else samples2.Add(-1);
 			}
+
+
 			double mean1 = samples1.Average();
 			double mean2 = samples2.Average();
-			List<double> nextSet = new List<double>(numberOfSamples);
-			for (int i = 0; i < numberOfSamples; i++) {
+			List<double> nextSet = new List<double>(numberOfSamplesInEachDimension);
+			for (int i = 0; i < numberOfSamplesInEachDimension; i++) {
 				nextSet.Add((samples1[i] - mean1) * (samples2[i] - mean2));
 			}
 			return nextSet.Average();
@@ -128,14 +151,12 @@ namespace Computational1 {
 			temperature = beta * 10;
 		}
 
-		public ThreeDIsing(int size) {
-			//randomize();
+		public ThreeDIsing(int size = 50) {
 			width = size;
-			initializeToZero();
-		}
-
-		public ThreeDIsing() {
-			//randomize();
+			NumberOfSpins = Math.Pow(width, 3);
+			systemState = new List<DoubleArray<bool>>(width);
+			Bitmap = new Bitmap(width, width);
+			//randomize(); 
 			initializeToZero();
 		}
 
@@ -283,7 +304,7 @@ namespace Computational1 {
 		}
 
 
-		public Bitmap Bitmap = new Bitmap(width, width);
+		public Bitmap Bitmap { get; set; }
 
 		public int ImgMagnification = 3;
 

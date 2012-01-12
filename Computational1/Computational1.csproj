@@ -73,6 +73,7 @@
       <DependentUpon>Test.cs</DependentUpon>
     </Compile>
     <Compile Include="ThreeDIsing.cs" />
+    <Compile Include="VanDerWaals.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OpenPadProject\Common\Common.csproj">

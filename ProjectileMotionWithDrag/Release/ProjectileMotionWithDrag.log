@@ -1,7 +1,7 @@
-﻿Build started 1/8/2012 11:16:14 PM.
-     1>Project "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj" on node 2 (build target(s)).
-     1>PrepareForBuild:
-         Creating directory "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Release\".
+﻿Build started 1/12/2012 11:45:47 AM.
+     1>Project "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj" on node 2 (rebuild target(s)).
+     1>_PrepareForClean:
+         Deleting file "Release\ProjectileMotionWithDrag.lastbuildstate".
        InitializeBuildStatus:
          Creating "Release\ProjectileMotionWithDrag.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
@@ -42,8 +42,8 @@
        FinalizeBuildStatus:
          Deleting file "Release\ProjectileMotionWithDrag.unsuccessfulbuild".
          Touching "Release\ProjectileMotionWithDrag.lastbuildstate".
-     1>Done Building Project "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj" (build target(s)).
+     1>Done Building Project "C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\ProjectileMotionWithDrag\ProjectileMotionWithDrag.vcxproj" (rebuild target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:11.13
+Time Elapsed 00:00:08.01

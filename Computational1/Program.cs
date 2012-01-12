@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using Common;
-using Common.ComputationHelper.Graphing;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Computational1 {
@@ -19,16 +18,63 @@ namespace Computational1 {
 			//RopeTrial();
 			//QuadraticFrictionProjectileTrial();
 			//LogisticMapTrial();
+			
 			//new IsingModel();
-
 			//EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel();
+			//correlationLengthAnalysis();
+			//getAllRoots();
+			//vanDerWaals();
 
+			//Circumference of an ellipse:
+			double a, b, eps;
+			a = 6;
+			b = 5;
+			eps = Math.Sqrt(a.Sqrd() - b.Sqrd()) / a;
+			Func<double, double> circumference = i => 4 * a * Math.Sqrt(1 - eps.Sqrd() * Math.Sin(i).Sqrd());
+			Console.WriteLine((circumference.simpsonIntegralApproximation(0, Math.PI / 2, 1000)).ToString());
+			
+			//Period of a pendulum
+			double phiMax = Math.PI / 5, length = 1, g = 9.8;
+			Func<double, double> pend = p => 1 / (Math.Sqrt(Math.Cos(p)) - Math.Cos(phiMax));
+			Console.WriteLine((4 * Math.Sqrt(length / (g* 2)) * pend.simpsonIntegralApproximation(0, phiMax, 1000)).ToString());
 
+			//Second viral coefficient 
+			double epsilon = 1;
+			double sigma = 2;
+			double kbT = 4;
+			Func<double, double> U = r => 4 * epsilon*(Math.Pow((sigma/r),12) - Math.Pow((sigma/r),6));
+			Func<double, double> viral = r => 1 - Math.Exp(-U(r) / (KbT));
+			double v2 = 2 * Math.PI * Math.Pow(sigma, 3);
+			Console.ReadLine();
+		}
+
+		static void vanDerWaals() {
+			//Van Der Waals:
+			double a = 2, R = 8.31, T = 320, P = 100, b = 1;
+			var eq = new PolynomialEq(-a, R * T + P * b, P);
+			var roots = eq.GetRoots();
+			foreach (double d in roots) {
+				Console.WriteLine("Root:" + d.ToString());
+				Console.WriteLine("(error: " + eq.Evaluate(d).ToString() + ")");
+			}
+			Console.ReadLine();
+			
+		}
+
+		static void getAllRoots() {
+			List<double> roots = new PolynomialEq(3, 6, 0).GetRoots();
+			foreach (double d in roots) {
+				Console.WriteLine(d.ToString());
+			}
+			Console.ReadLine();
+		}
+
+		static void correlationLengthAnalysis() {
 			List<Series> series = new List<Series>();
 			//Estimate correlation length
 			var A = new ThreeDIsing(25);
 			//for (double i = 4; i < 5; i += .1) {
-				for (double i = 3; i < 8; i += 1) {
+			for (double i = 3; i < 8; i += 1) {
 				Func<double, double> ising = b => {
 					A.SetBeta(i);
 					A.Randomize();
@@ -36,15 +82,10 @@ namespace Computational1 {
 					Debug.Print("Temp: " + i.ToString());
 					return Math.Log(A.AutoCorrelation((int)b, 50000));
 				};
-				series.Add(ising.Graph(0, 10, 1));
+				series.Add(	ising.GetSeriesForGraph(0, 10, 1));
 			}
 			PlotData data = new PlotData(series.ToArray());
 			data.Graph();
-
-
-			//new PolynomialEquation(1, 1, -6).EliminateRoot(-2);
-			//new PolynomialEquation(1, 1, -6).GetRoots();
-			//Console.ReadLine();
 		}
 
 		static void TheCorrelationtoNearestNeighborvsTemperature() {
@@ -58,7 +99,7 @@ namespace Computational1 {
 				Debug.Print("Temp: " + b.ToString());
 				return A.AutoCorrelation((int)1, 50000);
 			};
-			ising.Graph(4, 5, .01);
+			ising.GetSeriesForGraph(4, 5, .01);
 			//}
 		}
 

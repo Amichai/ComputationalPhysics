@@ -65,7 +65,7 @@ namespace CommonTest
 		///</summary>
 		[TestMethod()]
 		public void EvaluateTest() {
-			PolynomialEquation target = new PolynomialEquation(4,2,1); 
+			PolynomialEq target = new PolynomialEq(4,2,1); 
 			double at = 3F; // TODO: Initialize to an appropriate value
 			double expected = 43F; // TODO: Initialize to an appropriate value
 			double actual = target.Evaluate(at);
@@ -77,7 +77,7 @@ namespace CommonTest
 		///</summary>
 		[TestMethod()]
 		public void EvaluateAndEvaluateTheDerivativeTest() {
-			PolynomialEquation target = new PolynomialEquation(4, 2, 1); 
+			PolynomialEq target = new PolynomialEq(4, 2, 1); 
 			double at = 3F; // TODO: Initialize to an appropriate value
 			Tuple<double, double> expected = new Tuple<double, double>(43, 26);
 			Tuple<double, double> actual = target.EvaluateAndEvaluateTheDerivative(at);

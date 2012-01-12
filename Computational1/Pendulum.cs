@@ -55,6 +55,7 @@ namespace Computational1 {
 			this[amp] = amplitude;
 			this[this.inertia] = inertia;
 		}
+
 	}
 
 	public class Polynomial : MultiVariableEq {

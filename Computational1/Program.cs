@@ -24,7 +24,24 @@ namespace Computational1 {
 			//correlationLengthAnalysis();
 			//getAllRoots();
 			//vanDerWaals();
+			//integrationHomeworks();
+			//MonteCarloPiEvaluation();
+			
+			
+		}
 
+		static void MonteCarloPiEvaluation() {
+			//MonteCarlo Simulation:
+			Func<double, double> monteCarlo = i => {
+				var a = MonteCarlo.GetPi((int)i);
+				//Console.WriteLine("Iterations: " + i.ToString() + " value: " + a.ToString());
+				return a;
+			};
+			monteCarlo.GetSeriesForGraph(10, 10000, 10).Graph();
+			//MonteCarlo.GetPi(100000000);
+		}
+
+		static void integrationHomeworks() {
 			//Circumference of an ellipse:
 			double a, b, eps;
 			a = 6;
@@ -32,21 +49,30 @@ namespace Computational1 {
 			eps = Math.Sqrt(a.Sqrd() - b.Sqrd()) / a;
 			Func<double, double> circumference = i => 4 * a * Math.Sqrt(1 - eps.Sqrd() * Math.Sin(i).Sqrd());
 			Console.WriteLine((circumference.simpsonIntegralApproximation(0, Math.PI / 2, 1000)).ToString());
-			
+
 			//Period of a pendulum
 			double phiMax = Math.PI / 5, length = 1, g = 9.8;
 			Func<double, double> pend = p => 1 / (Math.Sqrt(Math.Cos(p)) - Math.Cos(phiMax));
-			Console.WriteLine((4 * Math.Sqrt(length / (g* 2)) * pend.simpsonIntegralApproximation(0, phiMax, 1000)).ToString());
+			Console.WriteLine((4 * Math.Sqrt(length / (g * 2)) * pend.simpsonIntegralApproximation(0, phiMax, 1000)).ToString());
 
 			//Second viral coefficient 
-			double epsilon = 1;
-			double sigma = 2;
-			double kbT = 4;
-			Func<double, double> U = r => 4 * epsilon*(Math.Pow((sigma/r),12) - Math.Pow((sigma/r),6));
-			Func<double, double> viral = r => 1 - Math.Exp(-U(r) / (KbT));
-			double v2 = 2 * Math.PI * Math.Pow(sigma, 3);
+			double sigma = 3.4e-10;
+			double kbT = 2;
+			Func<double, double> f = r => Math.Pow(r, -12) - Math.Pow(r, -6);
+			Func<double, double> viral = r => (1 - Math.Exp(-f(r) / (kbT))) * r.Sqrd();
+			double v2 = 2 * Math.PI * Math.Pow(sigma, 3) * viral.simpsonIntegralApproximation(.00000001, 10, 100);
+			Func<double, double> graph = i => {
+				kbT = i;
+				return 2 * Math.PI * Math.Pow(sigma, 3) * viral.simpsonIntegralApproximation(.00000001, 10, 100);
+			};
+
+			//Second viral coefficient with temperature
+			graph.GetSeriesForGraph(0, 10, .1).Graph();
+
+			Console.WriteLine(v2.ToString());
 			Console.ReadLine();
 		}
+
 
 		static void vanDerWaals() {
 			//Van Der Waals:

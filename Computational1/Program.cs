@@ -23,18 +23,19 @@ namespace Computational1 {
 			//EstimateTheForTheCriticalPointOfTheThreeDimensionalIsingModel();
 			//correlationLengthAnalysis();
 			//getAllRoots();
-			//vanDerWaals();
 			//integrationHomeworks();
-			//MonteCarloPiEvaluation();
+			//vanDerWaals();
+			MonteCarloPiEvaluation();
 			
-			
+
 		}
 
 		static void MonteCarloPiEvaluation() {
 			//MonteCarlo Simulation:
 			Func<double, double> monteCarlo = i => {
 				var a = MonteCarlo.GetPi((int)i);
-				//Console.WriteLine("Iterations: " + i.ToString() + " value: " + a.ToString());
+				if(i > 9989)
+					Console.WriteLine("Iterations: " + i.ToString() + " value: " + a.ToString());
 				return a;
 			};
 			monteCarlo.GetSeriesForGraph(10, 10000, 10).Graph();
@@ -88,10 +89,24 @@ namespace Computational1 {
 		}
 
 		static void getAllRoots() {
+						//3x^2 + 6x + 0
 			List<double> roots = new PolynomialEq(3, 6, 0).GetRoots();
-			foreach (double d in roots) {
-				Console.WriteLine(d.ToString());
+			for(int i=0; i < roots.Count(); i++){
+				Console.WriteLine("Root " + i.ToString() + ": " + roots[i].ToString());
 			}
+			Console.WriteLine();
+							//6x^2 + 7x + -3
+			roots = new PolynomialEq(6, 7, -3).GetRoots();
+			for (int i = 0; i < roots.Count(); i++) {
+				Console.WriteLine("Root " + i.ToString() + ": " + roots[i].ToString());
+			}
+			Console.WriteLine();
+								//11x^2 -2x + -3
+			roots = new PolynomialEq(11, -2, -3).GetRoots();
+			for (int i = 0; i < roots.Count(); i++) {
+				Console.WriteLine("Root " + i.ToString() + ": " + roots[i].ToString());
+			}
+
 			Console.ReadLine();
 		}
 
@@ -143,22 +158,36 @@ namespace Computational1 {
 		}
 
 		static void DoublePendulumTrial() {
+
+			/*
+			double m1, double m2, double r1, double r2, double psi1, double psi2, double g, double l, 
+			double I1, double I2, double a11, double a12, double a22, 
+			double phi1initial, double phi2initial, double dphi1dtinit, double dphi2dtinit */
+			//Func<double, double> pendulum = i => {
+			//    var A = new DoublePendulum(1, 1, 1, 1, Math.PI / 2, Math.PI / 8, -9.8, 30, .5, .5, 0, 0, 0, Math.PI / 4, Math.PI / 4, 0, i);
+			//                A.Evolve(0, 50, .05);
+			//                return A.GetFlips();
+			//                };
+			//pendulum.GetSeriesForGraph(1, 10, 1).Graph();
+
 			var A = new DoublePendulum(1, 1, 1, 1, Math.PI / 2, Math.PI / 8, -9.8, 30, .5, .5, 0, 0, 0, Math.PI / 4, Math.PI / 4, 0, 0);
 			new Animation(A, .1).ShowDialog();
+
+
 		}
 
 		static void QuadraticFrictionProjectileTrial() {
-			var A = new QuadraticFrictionProjectile(.01, 173, 173);
-			var ser1 = A.GetDataSeries(0, 11, .05);
+			//var A = new QuadraticFrictionProjectile(.01, 173, 173);
+			//var ser1 = A.GetDataSeries(0, 11, .05);
 
-			A = new QuadraticFrictionProjectile(.01, 200);
+			var A = new QuadraticFrictionProjectile(.01, 200);
 			var theta = A.GetThetaForMaxDistance();
 			var ser2 = A.GetDataSeries(0, 11, .05, theta);
 
 			A = new QuadraticFrictionProjectile(.01, 200);
 			theta = A.GetAngleToTarget(155, 90);
 			var ser3 = A.GetDataSeries(0, 11, .05, theta);
-			var data = new PlotData(ser1, ser2, ser3);
+			var data = new PlotData(ser2, ser3);
 
 			data.AddPoint(155, 90, "target");
 			data.Graph();

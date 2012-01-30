@@ -13,13 +13,12 @@ namespace Computational1 {
 		private Point[] allVerticies;
 		public Polygon(int numberOfSides, int radius) {
 			double[] anglesToVerticies = new double[numberOfSides];
-			 allVerticies = new Point[numberOfSides];
+			allVerticies = new Point[numberOfSides];
 			for (int i = 0; i < numberOfSides; i++) {
 				double angleBetweenTwoVerticies = (2*Math.PI)/numberOfSides;
 				anglesToVerticies[i] = i * angleBetweenTwoVerticies;
 				allVerticies[i] = new Point((int)(radius * Math.Cos(anglesToVerticies[i])) + (int)radius, (int)(radius * Math.Sin(anglesToVerticies[i]))+ (int)radius);
 			}
-
 		}
 		public Point[] GetAllVerticies() {
 			return allVerticies;

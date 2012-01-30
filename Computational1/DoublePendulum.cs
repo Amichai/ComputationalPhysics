@@ -55,6 +55,11 @@ namespace Computational1 {
 			data.Graph();
 		}
 
+		int flips = 0;
+		public int GetFlips(){
+			return flips;
+		}
+
 		public double[] updateYVals(double[] yVals, double x, double h, int n){
 			//Pass the functions for updating from the pendulum so this can be abstracted
 			double[] dyVals = new double[4];
@@ -81,6 +86,11 @@ namespace Computational1 {
 			double a11 = this[_a11];
 			double a12 = this[_a12];
 			double a22 = this[_a22];
+
+			if (yVals[1] > Math.PI * 2) {
+				flips++;
+				yVals[1] -= Math.PI * 2;
+			}
 
 			dyVals[0] = yVals[2];
 			dyVals[1] = yVals[3];

@@ -14,7 +14,7 @@ namespace Computational1 {
 				double x = rand.NextDouble();
 				double y = rand.NextDouble();
 				if (x.Sqrd() + y.Sqrd() < 1) s++;
-				Debug.Print((4.0 * s/(i + 1)).ToString());
+				//Debug.Print((4.0 * s/(i + 1)).ToString());
 			}
 			return (4.0 * s/(iterations + 1));
 		}

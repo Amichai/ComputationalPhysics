@@ -2,9 +2,7 @@ C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Comp
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Computational1.exe
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Computational1.pdb
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Common.dll
-C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Oyster.IntX.dll
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Common.pdb
-C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\bin\Debug\Oyster.IntX.xml
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\obj\x86\Debug\Computational1.exe
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\obj\x86\Debug\Computational1.pdb
 C:\Users\Amichai\Documents\Visual Studio 2010\Projects\ComputationalPhysics\Computational1\obj\x86\Debug\Computational1.Test.resources
